@@ -1,0 +1,61 @@
+<div class="announcement-bar">{{ section.settings.text }}</div>
+
+{%- style -%}
+  .announcement-bar {
+    text-align: center;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{section.settings.background_color}};
+    color: {{section.settings.text_color}};
+  }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Announcement-bar",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Màu nền",
+      "default": "#182013"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Màu chữ",
+      "default": "#d2d597"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Nội dung thông báo",
+      "default": "Flash Sale: Up to 20% Off On Selected Items"
+    },
+    {
+      "type": "header",
+      "content": "Cài đặt khoảng cách (Padding)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Khoảng cách trên (Padding Top)",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Khoảng cách dưới (Padding Bottom)",
+      "default": 12
+    }
+  ]
+}
+{% endschema %}
