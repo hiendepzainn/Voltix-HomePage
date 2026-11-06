@@ -1,54 +1,179 @@
-<header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
-
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
+<div class="header">
+  <div class="area area1">
+    <span>shop</span>
+    <span>collections</span>
+    <span>about</span>
+    <span>blog</span>
+    <span>contact</span>
+    <div>{{ 'icon-menu.svg' | inline_asset_content }}</div>
   </div>
 
-  <div class="header__icons">
-    {% if shop.customer_accounts_enabled %}
-      {{ 'icon-account.svg' | inline_asset_content | link_to: routes.account_url }}
-    {% endif %}
+  <div class="area area2">
+    <span>voltix</span>
+  </div>
 
-    <a href="{{ routes.cart_url }}">
+  <div class="area area3">
+    <div>
+      <span class="icon-header">{{ 'icon-search.svg' | inline_asset_content }}</span>
+      <span class="text">search</span>
+    </div>
+
+    <div>
+      <span class="icon-header">{{ 'icon-account.svg' | inline_asset_content }}</span>
+      <span class="text">sign in / register</span>
+    </div>
+
+    <div>
+      <span class="icon-header">{{ 'icon-cart.svg' | inline_asset_content }}</span>
+      <span class="text">cart</span>
       {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
+        <span>{{ cart.item_count }}</span>
       {% endif %}
-
-      {{ 'icon-cart.svg' | inline_asset_content }}
-    </a>
+    </div>
   </div>
-</header>
+</div>
+
+<script src="{{ 'js-header.js' | asset_url }}" defer="defer"></script>
 
 {% stylesheet %}
-  header {
-    height: 5rem;
+  .shopify-section:has(.header) {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .header {
+    display: flex;
+    justify-content: center;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    background-color: transparent;
+    margin-bottom: -4rem;
+    border-bottom: 1px solid #b3b3b389;
+    transition: background-color 0.3s ease;
+  }
+
+  .header .area {
+    width: 33vw;
+    /* background-color: antiquewhite; */
+  }
+
+  .header .area1 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .header .area1 span {
+    text-transform: uppercase;
+    color: white;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .header .area1 svg {
+    width: 1.5rem;
+    color: #fff;
+    display: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .header .area2 {
+    border-left: 2px solid #b3b3b389;
+    border-right: 2px solid #b3b3b389;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 2rem;
+    color: #fff;
+    transition: color 0.3s ease;
+  }
+
+  .header .area2 span {
+    cursor: pointer;
+  }
+
+  .header .area3 {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .header .area3 > div {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    cursor: pointer;
   }
-  header a {
-    position: relative;
-    text-decoration: none;
-    color: var(--color-foreground);
+
+  .header .area3 svg {
+    width: 1.5rem;
+    margin-right: 0.5rem;
   }
-  header a sup {
-    position: absolute;
-    left: 100%;
-    overflow: hidden;
-    max-width: var(--page-margin);
+
+  .header .area3 span {
+    text-transform: uppercase;
+    color: #fff;
+    transition: color 0.3s ease;
   }
-  header svg {
-    width: 2rem;
+
+  .header.scrolled {
+    background-color: #fff;
   }
-  header .header__menu,
-  header .header__icons {
-    display: flex;
-    gap: 1rem;
+
+  .header.scrolled .area1 span,
+  .header.scrolled .area2,
+  .header.scrolled .area3 span {
+    color: black;
+  }
+
+  @media screen and (max-width: 1500px) {
+    .header .area3 {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .header .area3 > div {
+      margin-right: 2rem;
+    }
+
+    .header .area3 > div .text {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 1300px) {
+    .header .area1 {
+      justify-content: flex-start;
+    }
+
+    .header .area1 span {
+      display: none;
+    }
+
+    .header .area1 svg {
+      display: block;
+      margin-left: 2rem;
+    }
+
+    .header.scrolled .area1 svg {
+      color: black;
+    }
+
+    .header .area2 {
+      border: none;
+    }
+  }
+
+  @media screen and (max-width: 990px) {
+    .header .area3 > div:nth-child(2) .icon-header {
+      display: none;
+    }
+
+    .header .area3 > div {
+      margin-right: 1rem;
+    }
   }
 {% endstylesheet %}
 
