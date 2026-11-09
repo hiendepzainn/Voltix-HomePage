@@ -1,16 +1,20 @@
 <div class="hero-banner">
   <div>
-    <h1>pure sound</h1>
-    <h1>zero distractions</h1>
-    <div class="text">experience crystal-clear sound anywhere</div>
+    <h1>{{ section.settings.main_text_1 }}</h1>
+    <h1>{{ section.settings.main_text_2 }}</h1>
+    <div class="text">{{ section.settings.description }}</div>
     <button>shop now</button>
   </div>
 </div>
 
-{% stylesheet %}
+{% style %}
   .hero-banner {
-    background-image: url('//voltix-demo.myshopify.com/cdn/shop/files/Home_7.png?v=1787113959&width=2400');
-    height: 50rem;
+    {%- if section.settings.bg_image != blank -%}
+      background-image: url('{{ section.settings.bg_image | image_url}}');
+    {%- else -%}
+      background-image: url('//voltix-demo.myshopify.com/cdn/shop/files/Home_7.png?v=1787113959&width=2400');
+    {%- endif -%}
+    height: {{section.settings.banner_height_pc}}rem;
     background-size: cover;
     background-position-y: 45%;
     background-position-x: center;
@@ -23,7 +27,7 @@
     text-transform: uppercase;
     font-size: 4rem;
     font-weight: 600;
-    color: #c8cc81;
+    color: {{section.settings.color_title}};
     letter-spacing: -0.01em;
     margin-bottom: 0.8rem;
     font-family: 'Mona Sans', sans-serif;
@@ -35,7 +39,7 @@
 
   .hero-banner .text {
     text-transform: capitalize;
-    color: #fff;
+    color: {{section.settings.color_description}};
     font-weight: 600;
     font-style: normal;
     font-family: 'Mona Sans', sans-serif;
@@ -49,8 +53,8 @@
     text-transform: uppercase;
     transition: all 0.5s;
     padding: 1rem 2.2rem;
-    background: rgba(62 68 48 / 1);
-    color: rgba(255 255 255 / 1);
+    background: {{section.settings.button_background_color}};
+    color: {{section.settings.button_color}};
     font-family: 'Mona Sans', sans-serif;
     font-weight: 700;
     font-size: 0.9rem;
@@ -59,8 +63,8 @@
   }
 
   .hero-banner button:hover {
-    background-color: rgba(255 255 255 / 1);
-    color: rgba(62 68 48 / 1);
+    background-color: {{section.settings.button_color}};
+    color: {{section.settings.button_background_color}};
   }
 
   @media screen and (max-width: 1350px) {
@@ -87,7 +91,7 @@
   @media screen and (max-width: 990px) {
     .hero-banner {
       align-items: flex-start;
-      height: 35rem;
+      height: {{section.settings.banner_height_mobile}}rem;
       padding: 6rem 2rem;
     }
 
@@ -100,4 +104,88 @@
       font-size: 0.75rem;
     }
   }
-{% endstylesheet %}
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Hero banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+
+    {
+      "type": "range",
+      "id": "banner_height_pc",
+      "min": 40,
+      "max": 60,
+      "step": 1,
+      "unit": "rem",
+      "label": "Banner height (PC)",
+      "default": 50
+    },
+
+    {
+      "type": "range",
+      "id": "banner_height_mobile",
+      "min": 25,
+      "max": 45,
+      "step": 1,
+      "unit": "rem",
+      "label": "Banner height (Mobile)",
+      "default": 35
+    },
+
+    {
+      "type": "text",
+      "id": "main_text_1",
+      "label": "Title 1",
+      "default": "pure sound"
+    },
+
+    {
+      "type": "text",
+      "id": "main_text_2",
+      "label": "Title 2",
+      "default": "zero distractions"
+    },
+
+    {
+      "type": "color",
+      "id": "color_title",
+      "label": "Title Color",
+      "default": "#c8cc81"
+    },
+
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "experience crystal-clear sound anywhere"
+    },
+
+    {
+      "type": "color",
+      "id": "color_description",
+      "label": "Description Color",
+      "default": "#fff"
+    },
+
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "rgba(255 255 255 / 1)"
+    },
+
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Button background color",
+      "default": "rgba(62 68 48 / 1)"
+    }
+  ]
+}
+{% endschema %}
