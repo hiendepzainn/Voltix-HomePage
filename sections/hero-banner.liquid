@@ -1,0 +1,66 @@
+<div class="hero-banner">
+  <div>
+    <h1>pure sound</h1>
+    <h1>zero distractions</h1>
+    <div class="text">experience crystal-clear sound anywhere</div>
+    <button>shop now</button>
+  </div>
+</div>
+
+{% stylesheet %}
+  .hero-banner {
+    background-image: url('//voltix-demo.myshopify.com/cdn/shop/files/Home_7.png?v=1787113959&width=2400');
+    height: 50rem;
+    background-size: cover;
+    background-position-y: 45%;
+    background-position-x: center;
+    display: flex;
+    align-items: center;
+    padding: 5rem 5rem;
+  }
+
+  .hero-banner h1 {
+    text-transform: uppercase;
+    font-size: 4rem;
+    font-weight: 600;
+    color: #c8cc81;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.8rem;
+    font-family: 'Mona Sans', sans-serif;
+  }
+
+  .hero-banner h1:nth-child(1) {
+    margin-bottom: -1rem;
+  }
+
+  .hero-banner .text {
+    text-transform: capitalize;
+    color: #fff;
+    font-weight: 600;
+    font-style: normal;
+    font-family: 'Mona Sans', sans-serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.3px;
+    margin-bottom: 2rem;
+  }
+
+  .hero-banner button {
+    border-radius: 50px;
+    text-transform: uppercase;
+    transition: all 0.5s;
+    padding: 1rem 2.2rem;
+    background: rgba(62 68 48 / 1);
+    color: rgba(255 255 255 / 1);
+    font-family: 'Mona Sans', sans-serif;
+    font-weight: 700;
+    border: 1px solid rgba(62 68 48 / 1);
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+  }
+
+  .hero-banner button:hover {
+    background-color: rgba(255 255 255 / 1);
+    color: rgba(62 68 48 / 1);
+  }
+{% endstylesheet %}
