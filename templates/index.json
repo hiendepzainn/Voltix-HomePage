@@ -12,7 +12,11 @@
     "section1": {
       "type": "hero-banner",
       "settings": {}
+    },
+    "section2": {
+      "type": "collection-list",
+      "settings": {}
     }
   },
-  "order": ["section1"]
+  "order": ["section1", "section2"]
 }
