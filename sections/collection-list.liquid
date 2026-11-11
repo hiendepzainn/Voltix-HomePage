@@ -81,6 +81,19 @@
   .collection-list .swiper .view {
     position: relative;
     margin-bottom: 1rem;
+    /* Cố định tỷ lệ khung hình cho ảnh, ví dụ 4/3 hoặc 1/1 (vuông). Bạn có thể đổi thành aspect-ratio: 1 / 1 hoặc 16 / 9 tùy ý */
+    aspect-ratio: 1/1;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px; /* Bo góc khung ảnh cho đẹp mắt, nếu không cần bạn có thể bỏ dòng này */
+  }
+
+  /* Đảm bảo thẻ img luôn phủ kín khung .view mà không bị méo */
+  .collection-list .swiper .view img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .collection-list .swiper .view > div {
