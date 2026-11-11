@@ -15,7 +15,7 @@
 -%}
 
 <div class="collection-list">
-  <h1>explore collections</h1>
+  <h1>{{ section.settings.heading }}</h1>
   <div class="swiper swiper-container-{{ section.id }}">
     <!-- Tầng 1: Khung chứa tổng thể (overflow: hidden) -->
     <div class="swiper-wrapper">
@@ -68,13 +68,13 @@
   .collection-list {
     padding: 4.5rem 15vw;
     font-family: 'Mona Sans', sans-serif;
-    background-color: #f4f5f4;
+    background-color: var(--section-bg-color);
   }
 
   .collection-list > h1 {
     text-transform: uppercase;
     font-size: 2.5rem;
-    color: #3e4430;
+    color: var(--heading-color);
     margin-bottom: 1.7rem;
   }
 
@@ -87,7 +87,7 @@
     position: absolute;
     bottom: 1.1rem;
     left: 1.6rem;
-    color: #fff;
+    color: var(--image-text-color);
     text-transform: capitalize;
   }
 
@@ -95,8 +95,8 @@
     display: flex;
     justify-content: space-between;
     padding: 1rem 1rem;
-    background-color: #ecefe9;
-    color: #3e4430;
+    background-color: var(--info-bg-color);
+    color: var(--info-text-color);
     border-radius: 10px;
     text-transform: capitalize;
   }
@@ -107,7 +107,7 @@
   }
 
   .collection-list .swiper .swiper-scrollbar {
-    background: rgba(0, 0, 0, 0.1);
+    background: var(--scrollbar-bg-color);
     height: 4px;
     border-radius: 4px;
     margin-top: 20px;
@@ -116,7 +116,7 @@
   }
 
   .collection-list .swiper .swiper-scrollbar-drag {
-    background: #3e4430;
+    background: var(--scrollbar-drag-color);
     border-radius: 4px;
     width: 20%;
   }
@@ -145,6 +145,18 @@
   }
 {%- endstylesheet -%}
 
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --section-bg-color: {{ section.settings.bg_color }};
+    --heading-color: {{ section.settings.heading_color }};
+    --image-text-color: {{ section.settings.image_text_color }};
+    --info-bg-color: {{ section.settings.info_bg_color }};
+    --info-text-color: {{ section.settings.info_text_color }};
+    --scrollbar-bg-color: {{ section.settings.scrollbar_bg_color }};
+    --scrollbar-drag-color: {{ section.settings.scrollbar_drag_color }};
+  }
+{%- endstyle -%}
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const swiper = new Swiper('.swiper-container-{{ section.id }}', {
@@ -172,7 +184,60 @@
 {% schema %}
 {
   "name": "Collection List",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Tiêu đề lớn",
+      "default": "explore collections"
+    },
+    {
+      "type": "header",
+      "content": "Cài đặt màu sắc"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Màu nền section",
+      "default": "#f4f5f4"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Màu chữ tiêu đề lớn",
+      "default": "#3e4430"
+    },
+    {
+      "type": "color",
+      "id": "image_text_color",
+      "label": "Màu chữ mô tả trên ảnh",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "info_bg_color",
+      "label": "Màu nền khung thông tin (info)",
+      "default": "#ecefe9"
+    },
+    {
+      "type": "color",
+      "id": "info_text_color",
+      "label": "Màu chữ khung thông tin (info)",
+      "default": "#3e4430"
+    },
+    {
+      "type": "color",
+      "id": "scrollbar_bg_color",
+      "label": "Màu nền thanh scrollbar",
+      "default": "rgba(0,0,0,0.1)"
+    },
+    {
+      "type": "color",
+      "id": "scrollbar_drag_color",
+      "label": "Màu thanh trượt scrollbar",
+      "default": "#3e4430"
+    }
+  ],
   "blocks": [
     {
       "type": "product_item",
@@ -184,27 +249,23 @@
           "label": "ID",
           "default": 1
         },
-
         {
           "type": "image_picker",
           "id": "image",
           "label": "Ảnh"
         },
-
         {
           "type": "text",
           "id": "device_type",
           "label": "Tên thiết bị",
           "default": "headphones"
         },
-
         {
           "type": "text",
           "id": "description",
           "label": "Mô tả",
           "default": "immersive audio"
         },
-
         {
           "type": "number",
           "id": "quantity",
