@@ -21,25 +21,41 @@
     <div class="swiper-wrapper">
       <!-- Tầng 2: Khung chứa dịch chuyển (flex container do Swiper quản lý) -->
 
-      {%- for item in fake_collections -%}
-        {%- assign item_data = item | strip | split: '|' -%}
-        {%- assign id = item_data[0] -%}
-        {%- assign description = item_data[1] -%}
-        {%- assign device_type = item_data[2] -%}
-        {%- assign image_url = item_data[3] -%}
-        {%- assign quantity = item_data[4] -%}
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <div class="swiper-slide">
+            <div class="view">
+              <img src="{{ block.settings.image | image_url}}" alt="image" width="100%" height="100%">
+              <div>{{ block.settings.description }}</div>
+            </div>
+            <div class="info">
+              <div>0{{ block.settings.id }}. {{ block.settings.device_type }}</div>
+              <div>{{ block.settings.quantity }}</div>
+            </div>
+          </div>
+        {%- endfor -%}
 
-        <div class="swiper-slide">
-          <div class="view">
-            <img src="{{image_url}}" alt="image" width="100%" height="100%">
-            <div>{{ description }}</div>
+      {%- else -%}
+        {%- for item in fake_collections -%}
+          {%- assign item_data = item | strip | split: '|' -%}
+          {%- assign id = item_data[0] -%}
+          {%- assign description = item_data[1] -%}
+          {%- assign device_type = item_data[2] -%}
+          {%- assign image_url = item_data[3] -%}
+          {%- assign quantity = item_data[4] -%}
+
+          <div class="swiper-slide">
+            <div class="view">
+              <img src="{{image_url}}" alt="image" width="100%" height="100%">
+              <div>{{ description }}</div>
+            </div>
+            <div class="info">
+              <div>0{{ id }}. {{ device_type }}</div>
+              <div>{{ quantity }}</div>
+            </div>
           </div>
-          <div class="info">
-            <div>0{{ id }}. {{ device_type }}</div>
-            <div>{{ quantity }}</div>
-          </div>
-        </div>
-      {%- endfor -%}
+        {%- endfor -%}
+      {%- endif -%}
     </div>
 
     <div class="swiper-scrollbar-wrapper">
@@ -152,3 +168,51 @@
     });
   });
 </script>
+
+{% schema %}
+{
+  "name": "Collection List",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "product_item",
+      "name": "thẻ sản phẩm",
+      "settings": [
+        {
+          "type": "number",
+          "id": "id",
+          "label": "ID",
+          "default": 1
+        },
+
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Ảnh"
+        },
+
+        {
+          "type": "text",
+          "id": "device_type",
+          "label": "Tên thiết bị",
+          "default": "headphones"
+        },
+
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Mô tả",
+          "default": "immersive audio"
+        },
+
+        {
+          "type": "number",
+          "id": "quantity",
+          "label": "Số lượng",
+          "default": 1
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

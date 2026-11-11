@@ -1,0 +1,527 @@
+{% comment %}
+  Section: IVS Tabbed Slider (1/3 Vertical Tabs - 2/3 Draggable Slider)
+  Có tích hợp dữ liệu fake sẵn nếu section.blocks trống.
+{% endcomment %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer="defer"></script>
+
+<style>
+  #ivs-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  #ivs-section-{{ section.id }} .ivs-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  /* --- CỘT TRÁI: 1/3 WIDTH (DANH SÁCH TAB DỌC) --- */
+  #ivs-section-{{ section.id }} .ivs-tabs-col {
+    flex: 0 0 calc(33.333% - 16px);
+    max-width: calc(33.333% - 16px);
+  }
+
+  #ivs-section-{{ section.id }} .ivs-section-heading {
+    margin: 0 0 20px 0;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0f172a;
+  }
+
+  #ivs-section-{{ section.id }} .ivs-tabs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #ivs-section-{{ section.id }} .ivs-tab-btn {
+    appearance: none;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 500;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  #ivs-section-{{ section.id }} .ivs-tab-btn:hover {
+    border-color: #cbd5e1;
+    background-color: #f8fafc;
+  }
+
+  /* Trạng thái Highlight khi Tab Active */
+  #ivs-section-{{ section.id }} .ivs-tab-btn.is-active {
+    background-color: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+  }
+
+  /* --- CỘT PHẢI: 2/3 WIDTH (SLIDER) --- */
+  #ivs-section-{{ section.id }} .ivs-slider-col {
+    flex: 1 1 calc(66.667% - 16px);
+    max-width: calc(66.667% - 16px);
+    min-width: 0; /* Bắt buộc để Swiper không vỡ khung Flexbox */
+  }
+
+  #ivs-section-{{ section.id }} .ivs-swiper {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  #ivs-section-{{ section.id }} .ivs-slide-item {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background-color: #e2e8f0;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  #ivs-section-{{ section.id }} .ivs-slide-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  #ivs-section-{{ section.id }} .ivs-slide-media img,
+  #ivs-section-{{ section.id }} .ivs-slide-media svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none; /* Tránh dính kéo ảnh mặc định của trình duyệt */
+  }
+
+  /* Phần mô tả 1-2 dòng cố định chặt vào từng Slide */
+  #ivs-section-{{ section.id }} .ivs-slide-caption {
+    position: relative;
+    z-index: 2;
+    padding: 32px 24px 24px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+    color: #ffffff;
+  }
+
+  #ivs-section-{{ section.id }} .ivs-slide-title {
+    margin: 0 0 6px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  #ivs-section-{{ section.id }} .ivs-slide-desc {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Giới hạn tối đa 2 dòng */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* --- RESPONSIVE MOBILE (DƯỚI 768PX) --- */
+  @media screen and (max-width: 768px) {
+    #ivs-section-{{ section.id }} .ivs-container {
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    #ivs-section-{{ section.id }} .ivs-tabs-col,
+    #ivs-section-{{ section.id }} .ivs-slider-col {
+      flex: 1 1 100%;
+      max-width: 100%;
+      width: 100%;
+    }
+
+    /* Dàn ngang danh sách Tab và hỗ trợ vuốt ngang trên Mobile */
+    #ivs-section-{{ section.id }} .ivs-tabs-list {
+      flex-direction: row;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding-bottom: 4px;
+      gap: 8px;
+    }
+
+    #ivs-section-{{ section.id }} .ivs-tabs-list::-webkit-scrollbar {
+      display: none;
+    }
+
+    #ivs-section-{{ section.id }} .ivs-tab-btn {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      padding: 10px 18px;
+      font-size: 14px;
+      border-radius: 999px;
+      width: auto;
+    }
+
+    #ivs-section-{{ section.id }} .ivs-slide-item {
+      aspect-ratio: 4 / 3;
+    }
+
+    #ivs-section-{{ section.id }} .ivs-slide-caption {
+      padding: 20px 16px 16px;
+    }
+
+    #ivs-section-{{ section.id }} .ivs-slide-title {
+      font-size: 18px;
+    }
+
+    #ivs-section-{{ section.id }} .ivs-slide-desc {
+      font-size: 14px;
+    }
+  }
+</style>
+
+<section id="ivs-section-{{ section.id }}" class="ivs-tabbed-slider-section" data-section-id="{{ section.id }}">
+  <div class="ivs-container">
+    <!-- BÊN TRÁI (1/3): DANH SÁCH TAB -->
+    <div class="ivs-tabs-col">
+      {% if section.settings.heading != blank %}
+        <h2 class="ivs-section-heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      <div class="ivs-tabs-list" role="tablist">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            <button
+              type="button"
+              class="ivs-tab-btn {% if forloop.first %}is-active{% endif %}"
+              data-index="{{ forloop.index0 }}"
+              role="tab"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            >
+              <span>{{ block.settings.tab_label | escape }}</span>
+            </button>
+          {% endfor %}
+        {% else %}
+          <!-- Dữ liệu FAKE hiển thị ngay lập tức khi chưa có block -->
+          <button type="button" class="ivs-tab-btn is-active" data-index="0" role="tab" aria-selected="true">
+            <span>01. Thiết kế tối giản</span>
+          </button>
+          <button type="button" class="ivs-tab-btn" data-index="1" role="tab" aria-selected="false">
+            <span>02. Chất liệu bền bỉ</span>
+          </button>
+          <button type="button" class="ivs-tab-btn" data-index="2" role="tab" aria-selected="false">
+            <span>03. Tương thích đa năng</span>
+          </button>
+          <button type="button" class="ivs-tab-btn" data-index="3" role="tab" aria-selected="false">
+            <span>04. Bảo hành trọn đời</span>
+          </button>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- BÊN PHẢI (2/3): CÁC SLIDE -->
+    <div class="ivs-slider-col">
+      <div class="swiper ivs-swiper" id="ivs-swiper-{{ section.id }}">
+        <div class="swiper-wrapper">
+          {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+              <div class="swiper-slide" data-block-id="{{ block.id }}" {{ block.shopify_attributes }}>
+                <div class="ivs-slide-item">
+                  <div class="ivs-slide-media">
+                    {% if block.settings.image != blank %}
+                      {{
+                        block.settings.image
+                        | image_url: width: 1200
+                        | image_tag: loading: 'lazy', widths: '400, 600, 800, 1000, 1200', alt: block.settings.tab_label
+                      }}
+                    {% else %}
+                      {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+                      {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                    {% endif %}
+                  </div>
+                  {% if block.settings.slide_title != blank or block.settings.slide_desc != blank %}
+                    <div class="ivs-slide-caption">
+                      {% if block.settings.slide_title != blank %}
+                        <h3 class="ivs-slide-title">{{ block.settings.slide_title | escape }}</h3>
+                      {% endif %}
+                      {% if block.settings.slide_desc != blank %}
+                        <p class="ivs-slide-desc">{{ block.settings.slide_desc | escape }}</p>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <!-- Slide FAKE tương ứng cho 4 tab mẫu -->
+            <div class="swiper-slide">
+              <div class="ivs-slide-item">
+                <div class="ivs-slide-media">{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+                <div class="ivs-slide-caption">
+                  <h3 class="ivs-slide-title">Thiết kế hiện đại & tinh tế</h3>
+                  <p class="ivs-slide-desc">
+                    Tối ưu hóa không gian hiển thị với bố cục trực quan, giúp khách hàng tập trung hoàn toàn vào sản
+                    phẩm chính.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="ivs-slide-item">
+                <div class="ivs-slide-media">{{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+                <div class="ivs-slide-caption">
+                  <h3 class="ivs-slide-title">Chất liệu cao cấp chọn lọc</h3>
+                  <p class="ivs-slide-desc">
+                    Bề mặt chống bám bẩn và chịu lực tốt, giữ nguyên form dáng sau thời gian dài sử dụng liên tục.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="ivs-slide-item">
+                <div class="ivs-slide-media">{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+                <div class="ivs-slide-caption">
+                  <h3 class="ivs-slide-title">Kết nối nhanh chóng mọi thiết bị</h3>
+                  <p class="ivs-slide-desc">
+                    Hỗ trợ đồng bộ hóa tức thì chỉ với một thao tác chạm, vận hành ổn định trên mọi nền tảng.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="ivs-slide-item">
+                <div class="ivs-slide-media">{{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+                <div class="ivs-slide-caption">
+                  <h3 class="ivs-slide-title">An tâm sử dụng dài lâu</h3>
+                  <p class="ivs-slide-desc">
+                    Hỗ trợ kỹ thuật 24/7 và đổi trả miễn phí trong 30 ngày đầu tiên nếu phát sinh lỗi từ nhà sản xuất.
+                  </p>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    function initIvsTabbedSlider(sectionEl) {
+      if (!sectionEl) return;
+      const sectionId = sectionEl.getAttribute('data-section-id');
+      const swiperEl = sectionEl.querySelector('#ivs-swiper-' + sectionId);
+      const tabBtns = sectionEl.querySelectorAll('.ivs-tab-btn');
+      const tabsList = sectionEl.querySelector('.ivs-tabs-list');
+
+      if (!swiperEl || typeof Swiper === 'undefined') return;
+
+      if (swiperEl.swiper) {
+        swiperEl.swiper.destroy(true, true);
+      }
+
+      function setActiveTab(index) {
+        tabBtns.forEach((btn, idx) => {
+          const isActive = idx === index;
+          btn.classList.toggle('is-active', isActive);
+          btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+
+          if (isActive && window.innerWidth <= 768 && tabsList) {
+            const btnLeft = btn.offsetLeft;
+            const btnWidth = btn.offsetWidth;
+            const listWidth = tabsList.offsetWidth;
+            tabsList.scrollTo({
+              left: btnLeft - listWidth / 2 + btnWidth / 2,
+              behavior: 'smooth',
+            });
+          }
+        });
+      }
+
+      const swiperInstance = new Swiper(swiperEl, {
+        slidesPerView: 1,
+        spaceBetween: 16,
+        speed: 450,
+        grabCursor: true,
+        simulateTouch: true,
+        resistanceRatio: 0.85,
+        on: {
+          slideChange: function () {
+            setActiveTab(this.activeIndex);
+          },
+        },
+      });
+
+      tabBtns.forEach((btn) => {
+        btn.addEventListener('click', function () {
+          const targetIndex = parseInt(this.getAttribute('data-index'), 10);
+          swiperInstance.slideTo(targetIndex);
+          setActiveTab(targetIndex);
+        });
+      });
+    }
+
+    function bootSection() {
+      const sectionEl = document.getElementById('ivs-section-{{ section.id }}');
+      if (typeof Swiper !== 'undefined') {
+        initIvsTabbedSlider(sectionEl);
+      } else {
+        window.addEventListener('load', function () {
+          initIvsTabbedSlider(sectionEl);
+        });
+      }
+    }
+
+    bootSection();
+
+    document.addEventListener('shopify:section:load', function (event) {
+      if (event.detail.sectionId === '{{ section.id }}') {
+        initIvsTabbedSlider(event.target.querySelector('.ivs-tabbed-slider-section'));
+      }
+    });
+
+    document.addEventListener('shopify:block:select', function (event) {
+      if (event.detail.sectionId === '{{ section.id }}') {
+        const swiperEl = document.getElementById('ivs-swiper-{{ section.id }}');
+        const slides = swiperEl ? swiperEl.querySelectorAll('.swiper-slide') : [];
+        slides.forEach((slide, index) => {
+          if (slide.getAttribute('data-block-id') === event.detail.blockId && swiperEl.swiper) {
+            swiperEl.swiper.slideTo(index);
+          }
+        });
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "IVS Tabbed Slider",
+  "tag": "section",
+  "class": "section-ivs-tabbed-slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Tiêu đề Section",
+      "default": "Khám phá tính năng"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Màu nền",
+      "default": "#f8fafc"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab_item",
+      "name": "Tab & Slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "Tên hiển thị ở Tab",
+          "default": "Tab tiêu đề"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Hình ảnh Slide"
+        },
+        {
+          "type": "text",
+          "id": "slide_title",
+          "label": "Tiêu đề ngắn trên Slide",
+          "default": "Tiêu đề nổi bật của Slide"
+        },
+        {
+          "type": "textarea",
+          "id": "slide_desc",
+          "label": "Mô tả (1-2 dòng cố định trên Slide)",
+          "default": "Mô tả chi tiết gắn liền trực tiếp với slide này. Khi người dùng kéo thả slide, dòng chữ này sẽ di chuyển theo cùng khung hình."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "IVS Tabbed Slider",
+      "blocks": [
+        {
+          "type": "tab_item",
+          "settings": {
+            "tab_label": "01. Thiết kế tối giản",
+            "slide_title": "Thiết kế hiện đại & tinh tế",
+            "slide_desc": "Tối ưu hóa không gian hiển thị với bố cục trực quan, giúp khách hàng tập trung hoàn toàn vào sản phẩm chính."
+          }
+        },
+        {
+          "type": "tab_item",
+          "settings": {
+            "tab_label": "02. Chất liệu bền bỉ",
+            "slide_title": "Chất liệu cao cấp chọn lọc",
+            "slide_desc": "Bề mặt chống bám bẩn và chịu lực tốt, giữ nguyên form dáng sau thời gian dài sử dụng liên tục."
+          }
+        },
+        {
+          "type": "tab_item",
+          "settings": {
+            "tab_label": "03. Tương thích đa năng",
+            "slide_title": "Kết nối nhanh chóng mọi thiết bị",
+            "slide_desc": "Hỗ trợ đồng bộ hóa tức thì chỉ với một thao tác chạm, vận hành ổn định trên mọi nền tảng."
+          }
+        },
+        {
+          "type": "tab_item",
+          "settings": {
+            "tab_label": "04. Bảo hành trọn đời",
+            "slide_title": "An tâm sử dụng dài lâu",
+            "slide_desc": "Hỗ trợ kỹ thuật 24/7 và đổi trả miễn phí trong 30 ngày đầu tiên nếu phát sinh lỗi từ nhà sản xuất."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

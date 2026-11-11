@@ -20,7 +20,15 @@
     "section3": {
       "type": "top-tech-picks",
       "settings": {}
+    },
+    "section4": {
+      "type": "step-by-step",
+      "settings": {}
+    },
+    "sectionDraft": {
+      "type": "draft",
+      "settings": {}
     }
   },
-  "order": ["section1", "section2", "section3"]
+  "order": ["section1", "section2", "section3", "section4", "sectionDraft"]
 }
