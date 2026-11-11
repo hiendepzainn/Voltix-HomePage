@@ -16,7 +16,11 @@
     "section2": {
       "type": "collection-list",
       "settings": {}
+    },
+    "section3": {
+      "type": "top-tech-picks",
+      "settings": {}
     }
   },
-  "order": ["section1", "section2"]
+  "order": ["section1", "section2", "section3"]
 }

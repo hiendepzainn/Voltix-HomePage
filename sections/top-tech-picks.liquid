@@ -1,0 +1,356 @@
+{%- assign top_tech_picks_data = '
+        1|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle9417.png?v=1789456344&width=1920|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle_661_2.png?v=1787223978&width=800|Sleek Matte Finish|Voltix AirWave Headphones|300,
+        2|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle524_7-blaxck.png?v=1786692613&width=1920|https://voltix-demo.myshopify.com/cdn/shop/files/ChatGPTImageSep15_2026_12_58_21PM.png?v=1789457212&width=800|Fast Charging|Voltix Nova Buds X Dark Edition|300,
+        3|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle9425_1.png?v=1789462493&width=1920|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle524_10.png?v=1786692432&width=800|Water Resistant IP68|Voltix Volt S1 Smart Watch|300,
+        4|https://voltix-demo.myshopify.com/cdn/shop/files/MatteBlackSmartwatchProductShot_1.png?v=1791277800&width=1920|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle9428_1.png?v=1789462493&width=800|360 Immersive Sound|Voltix Studio Speaker|100,
+        5|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle524_54.png?v=1787395498&width=1920|https://voltix-demo.myshopify.com/cdn/shop/files/ChatGPTImageOct6_2026_02_59_10PM-2.png?v=1791278965&width=800|GPS Tracking|Voltix Lunar Atlas Pro|200
+      '
+  | split: ','
+-%}
+
+<div class="top-tech-picks">
+  <h1>top tech picks</h1>
+
+  <div class="tab-list">
+    <div class="tab active" data-tab="tab-1">best sellers</div>
+    <div class="tab" data-tab="tab-2">expert pick</div>
+    <div class="tab" data-tab="tab-3">new arrivals</div>
+  </div>
+
+  <div class="contents">
+    <div class="content active" id="tab-1">
+      <div class="swiper swiper-container-{{ section.id }}">
+        <!-- Tầng 1: Khung chứa tổng thể (overflow: hidden) -->
+        <div class="swiper-wrapper">
+          <!-- Tầng 2: Khung chứa dịch chuyển (flex container do Swiper quản lý) -->
+
+          {%- for item in top_tech_picks_data -%}
+            {%- assign item_data = item | strip | split: '|' -%}
+            {%- assign id = item_data[0] -%}
+            {%- assign img_url_1 = item_data[1] -%}
+            {%- assign img_url_2 = item_data[2] -%}
+            {%- assign special_feature = item_data[3] -%}
+            {%- assign name = item_data[4] -%}
+            {%- assign price = item_data[5] -%}
+
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="image">
+                  <img class="img_back" src="{{ img_url_2 }}" alt="image" width="100%" height="100%">
+                  <img class="img_front" src="{{ img_url_1 }}" alt="image" width="100%" height="100%">
+                </div>
+                <div class="special_feature">
+                  <div>{{ special_feature }}</div>
+                </div>
+                <div class="line_1">
+                  <div>{{ name }}</div>
+                  <span>{{ 'icon-cart.svg' | inline_asset_content }}</span>
+                </div>
+                <div class="line_2">Rs. {{ price }}.00</div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="swiper-scrollbar-wrapper">
+          <div class="swiper-scrollbar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content" id="tab-2">
+      <div class="swiper swiper-container-{{ section.id }}">
+        <!-- Tầng 1: Khung chứa tổng thể (overflow: hidden) -->
+        <div class="swiper-wrapper">
+          <!-- Tầng 2: Khung chứa dịch chuyển (flex container do Swiper quản lý) -->
+
+          {%- for item in top_tech_picks_data reversed -%}
+            {%- assign item_data = item | strip | split: '|' -%}
+            {%- assign id = item_data[0] -%}
+            {%- assign img_url_1 = item_data[1] -%}
+            {%- assign img_url_2 = item_data[2] -%}
+            {%- assign special_feature = item_data[3] -%}
+            {%- assign name = item_data[4] -%}
+            {%- assign price = item_data[5] -%}
+
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="image">
+                  <img class="img_back" src="{{ img_url_2 }}" alt="image" width="100%" height="100%">
+                  <img class="img_front" src="{{ img_url_1 }}" alt="image" width="100%" height="100%">
+                </div>
+                <div class="special_feature">
+                  <div>{{ special_feature }}</div>
+                </div>
+                <div class="line_1">
+                  <div>{{ name }}</div>
+                  <span>{{ 'icon-cart.svg' | inline_asset_content }}</span>
+                </div>
+                <div class="line_2">Rs. {{ price }}.00</div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="swiper-scrollbar-wrapper">
+          <div class="swiper-scrollbar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content" id="tab-3">
+      <div class="swiper swiper-container-{{ section.id }}">
+        <!-- Tầng 1: Khung chứa tổng thể (overflow: hidden) -->
+        <div class="swiper-wrapper">
+          <!-- Tầng 2: Khung chứa dịch chuyển (flex container do Swiper quản lý) -->
+
+          {%- for item in top_tech_picks_data -%}
+            {%- assign item_data = item | strip | split: '|' -%}
+            {%- assign id = item_data[0] -%}
+            {%- assign img_url_1 = item_data[1] -%}
+            {%- assign img_url_2 = item_data[2] -%}
+            {%- assign special_feature = item_data[3] -%}
+            {%- assign name = item_data[4] -%}
+            {%- assign price = item_data[5] -%}
+
+            <div class="swiper-slide">
+              <div class="card">
+                <div class="image">
+                  <img class="img_back" src="{{ img_url_2 }}" alt="image" width="100%" height="100%">
+                  <img class="img_front" src="{{ img_url_1 }}" alt="image" width="100%" height="100%">
+                </div>
+                <div class="special_feature">
+                  <div>{{ special_feature }}</div>
+                </div>
+                <div class="line_1">
+                  <div>{{ name }}</div>
+                  <span>{{ 'icon-cart.svg' | inline_asset_content }}</span>
+                </div>
+                <div class="line_2">Rs. {{ price }}.00</div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="swiper-scrollbar-wrapper">
+          <div class="swiper-scrollbar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- stylesheet -%}
+  .top-tech-picks {
+    padding: 4.5rem 15vw;
+    font-family: 'Mona Sans', sans-serif;
+    background-color: #f4f5f4;
+  }
+
+  .top-tech-picks > h1 {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 3rem;
+    color: #3e4430;
+    margin-bottom: 1rem;
+  }
+
+  .top-tech-picks .tab-list {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    text-transform: capitalize;
+    color: #3e4430;
+    margin-bottom: 2rem;
+  }
+
+  .top-tech-picks .tab-list .tab {
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+
+  .top-tech-picks .tab-list .tab.active {
+    border-bottom: 2.5px solid #3e4430;
+  }
+
+  .top-tech-picks .contents .content {
+    display: none;
+  }
+
+  .top-tech-picks .contents .content.active {
+    display: block;
+  }
+
+  .top-tech-picks .contents .content .swiper .card {
+    background-color: #fff;
+    padding: 0.5rem;
+    border-radius: 20px;
+  }
+
+  .top-tech-picks .contents .content .swiper .card .image {
+    background-color: antiquewhite;
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 20px 20px 0px 0px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .top-tech-picks .contents .content .swiper .card .image img:nth-child(1) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    scale: 1.2;
+  }
+
+  .top-tech-picks .contents .content .swiper .card .image img:nth-child(2) {
+    z-index: 15;
+    position: absolute;
+    top: 0;
+    left: 0;
+    scale: 1.05;
+  }
+
+  .top-tech-picks .contents .content .swiper .card .image .img_front {
+    transition: opacity 0.7s ease, scale 0.7s ease;
+  }
+
+  .top-tech-picks .contents .content .swiper .card .image:hover .img_front {
+    opacity: 0;
+    scale: 1.2;
+  }
+
+  .top-tech-picks .contents .content .swiper .card .image .img_back {
+    transition: scale 0.7s ease;
+  }
+
+  .top-tech-picks .contents .content .swiper .card .image:hover .img_back {
+    scale: 1.05;
+  }
+
+  .top-tech-picks .contents .content .swiper .card .special_feature {
+    background-color: #3e4430;
+    color: #fff;
+    padding: 0.7rem 1.2rem;
+    border-radius: 0px 0px 20px 20px;
+    font-size: 0.9rem;
+  }
+
+  .top-tech-picks .contents .content .swiper .card .line_1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0rem 1.5rem;
+    color: #3e4430;
+    font-size: 1.1rem;
+    margin: 1.2rem 0rem 0rem;
+  }
+
+  .top-tech-picks .contents .content .swiper .card .line_1 span {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    background-color: #3e4430;
+    color: #fff;
+    padding: 0.2rem 0.7rem;
+    border-radius: 14px;
+  }
+
+  .top-tech-picks .contents .content .swiper .card .line_1 span svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .top-tech-picks .contents .content .swiper .card .line_2 {
+    padding: 0rem 1.5rem;
+    color: #3e4430;
+    margin-bottom: 0.5rem;
+  }
+
+  .top-tech-picks .swiper .swiper-scrollbar-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .top-tech-picks .swiper .swiper-scrollbar {
+    background: rgba(0, 0, 0, 0.1);
+    height: 4px;
+    border-radius: 4px;
+    margin-top: 2.5rem;
+    position: relative !important;
+    width: 20%;
+  }
+
+  .top-tech-picks .swiper .swiper-scrollbar-drag {
+    background: #3e4430;
+    border-radius: 4px;
+    width: 20%;
+  }
+
+  @media screen and (max-width: 1500px) {
+    .top-tech-picks {
+      padding: 4rem 10vw;
+    }
+  }
+
+  @media screen and (max-width: 1300px) {
+    .top-tech-picks {
+      padding: 3.5rem 8vw;
+    }
+
+    .top-tech-picks > h1 {
+      font-size: 2rem;
+    }
+  }
+
+  @media screen and (max-width: 750px) {
+    .top-tech-picks > h1 {
+      font-size: 1.7rem;
+    }
+  }
+{%- endstylesheet -%}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const tabList = document.querySelectorAll('.top-tech-picks .tab-list .tab');
+    const contentList = document.querySelectorAll('.top-tech-picks .contents .content');
+
+    tabList.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const targetId = tab.getAttribute('data-tab');
+
+        tabList.forEach((tab) => tab.classList.remove('active'));
+        contentList.forEach((content) => content.classList.remove('active'));
+
+        tab.classList.add('active');
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const swiper = new Swiper('.swiper-container-{{ section.id }}', {
+      slidesPerView: 2,
+      spaceBetween: 16,
+      grabCursor: true,
+      scrollbar: {
+        el: '.swiper-scrollbar',
+        draggable: true,
+      },
+      breakpoints: {
+        900: {
+          slidesPerView: 3,
+          spaceBetween: 20,
+        },
+        1200: {
+          slidesPerView: 4,
+          spaceBetween: 24,
+        },
+      },
+    });
+  });
+</script>
