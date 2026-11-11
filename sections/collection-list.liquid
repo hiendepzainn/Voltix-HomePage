@@ -159,24 +159,43 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const swiper = new Swiper('.swiper-container-{{ section.id }}', {
-      slidesPerView: 2,
-      spaceBetween: 16,
-      grabCursor: true,
-      scrollbar: {
-        el: '.swiper-scrollbar',
-        draggable: true,
-      },
-      breakpoints: {
-        900: {
-          slidesPerView: 3,
-          spaceBetween: 20,
+    let collectionSwiper = null;
+
+    function initSwiper() {
+      // Hủy instance cũ nếu đã tồn tại để tránh xung đột
+      if (collectionSwiper !== null && typeof collectionSwiper.destroy === 'function') {
+        collectionSwiper.destroy(true, true);
+      }
+
+      collectionSwiper = new Swiper('.swiper-container-{{ section.id }}', {
+        slidesPerView: 2,
+        spaceBetween: 16,
+        grabCursor: true,
+        scrollbar: {
+          el: '.swiper-scrollbar',
+          draggable: true,
         },
-        1200: {
-          slidesPerView: 4,
-          spaceBetween: 24,
+        breakpoints: {
+          900: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+          1200: {
+            slidesPerView: 4,
+            spaceBetween: 24,
+          },
         },
-      },
+      });
+    }
+
+    // Khởi tạo lần đầu khi load trang
+    initSwiper();
+
+    // Lắng nghe sự kiện Shopify Theme Editor load/change setting để khởi tạo lại
+    document.addEventListener('shopify:section:load', function (event) {
+      if (event.detail.sectionId === '{{ section.id }}') {
+        initSwiper();
+      }
     });
   });
 </script>
