@@ -32,6 +32,10 @@
     "section6": {
       "type": "customer-reviews",
       "settings": {}
+    },
+    "section7": {
+      "type": "social-gallery-slider",
+      "settings": {}
     }
   },
   "order": [
@@ -40,6 +44,7 @@
     "section3",
     "section5",
     "section4",
-    "section6"
+    "section6",
+    "section7"
   ]
 }

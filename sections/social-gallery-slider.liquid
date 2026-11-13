@@ -1,0 +1,517 @@
+{{ 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css' | stylesheet_tag }}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --sg-bg-color: {{ section.settings.bg_color }};
+    --sg-text-color: {{ section.settings.text_color }};
+    --sg-base-height-desktop: {{ section.settings.base_height_desktop }}px;
+    --sg-expanded-height-desktop: {{ section.settings.expanded_height_desktop }}px;
+    --sg-height-tablet: {{ section.settings.height_tablet }}px;
+    --sg-height-mobile: {{ section.settings.height_mobile }}px;
+    --sg-padding-top: {{ section.settings.padding_top }}px;
+    --sg-padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .social-gallery-{{ section.id }} {
+    background-color: var(--sg-bg-color);
+    padding-top: var(--sg-padding-top);
+    padding-bottom: var(--sg-padding-bottom);
+    width: 100%;
+    overflow: hidden;
+     font-family: 'Mona Sans', sans-serif;
+  }
+
+  .social-gallery-{{ section.id }} .social-gallery__header {
+    text-align: center;
+    padding: 0 20px;
+    margin-bottom: 40px;
+  }
+
+  .social-gallery-{{ section.id }} .social-gallery__title {
+    margin: 0;
+    color: var(--sg-text-color);
+    font-size: clamp(24px, 3.5vw, 42px);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .social-gallery-{{ section.id }} .social-gallery__slider {
+    width: 100%;
+    position: relative;
+    padding-bottom: 32px;
+  }
+
+  .social-gallery-{{ section.id }} .swiper-wrapper {
+    align-items: flex-end;
+    min-height: var(--sg-expanded-height-desktop);
+  }
+
+  .social-gallery-{{ section.id }} .social-gallery__slide {
+    height: auto;
+    box-sizing: border-box;
+  }
+
+  .social-gallery-{{ section.id }} .social-gallery__card {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: var(--sg-base-height-desktop);
+    overflow: hidden;
+    text-decoration: none;
+    transition: height 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    background-color: #f4f4f4;
+  }
+
+  .social-gallery-{{ section.id }} .social-gallery__image,
+  .social-gallery-{{ section.id }} .social-gallery__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .social-gallery-{{ section.id }} .social-gallery__caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    color: #121212;
+    text-align: center;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.3;
+    border-radius: 12px 12px 0 0;
+    box-sizing: border-box;
+    transform: translateY(101%);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .social-gallery-{{ section.id }} .swiper-pagination-progressbar {
+    top: auto !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%);
+    width: clamp(140px, 18vw, 220px) !important;
+    height: 4px !important;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .social-gallery-{{ section.id }} .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+    background: var(--sg-text-color);
+    border-radius: 999px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .social-gallery-{{ section.id }} .social-gallery__slide.is-featured .social-gallery__card {
+      height: var(--sg-expanded-height-desktop);
+    }
+
+    .social-gallery-{{ section.id }} .swiper-wrapper:hover .social-gallery__slide:not(:hover) .social-gallery__card {
+      height: var(--sg-base-height-desktop);
+    }
+
+    .social-gallery-{{ section.id }} .social-gallery__slide:hover .social-gallery__card {
+      height: var(--sg-expanded-height-desktop);
+    }
+
+    .social-gallery-{{ section.id }} .social-gallery__slide:hover .social-gallery__caption {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @media screen and (max-width: 1023px) {
+    .social-gallery-{{ section.id }} .swiper-wrapper {
+      min-height: auto;
+      align-items: stretch;
+    }
+
+    .social-gallery-{{ section.id }} .social-gallery__card,
+    .social-gallery-{{ section.id }} .social-gallery__slide.is-featured .social-gallery__card {
+      height: var(--sg-height-tablet);
+    }
+
+    .social-gallery-{{ section.id }} .social-gallery__caption {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .social-gallery-{{ section.id }} .social-gallery__header {
+      margin-bottom: 24px;
+    }
+
+    .social-gallery-{{ section.id }} .social-gallery__card,
+    .social-gallery-{{ section.id }} .social-gallery__slide.is-featured .social-gallery__card {
+      height: var(--sg-height-mobile);
+    }
+  }
+{%- endstyle -%}
+
+{%- assign default_image_1 = '//voltix-demo.myshopify.com/cdn/shop/files/Rectangle_9371.png?v=1789029919&width=1200' -%}
+{%- assign default_image_2 = '//voltix-demo.myshopify.com/cdn/shop/files/Rectangle_9375_1.png?v=1789034596&width=1200' -%}
+{%- assign default_image_3 = '//voltix-demo.myshopify.com/cdn/shop/files/Rectangle_9374.png?v=1789029919&width=1200' -%}
+{%- assign default_image_4 = '//voltix-demo.myshopify.com/cdn/shop/files/Rectangle_9376.png?v=1789029919&width=1200' -%}
+{%- assign default_image_5 = '//voltix-demo.myshopify.com/cdn/shop/files/Rectangle_9370.png?v=1789029919&width=1200' -%}
+
+<section class="social-gallery-{{ section.id }}" data-section-id="{{ section.id }}">
+  {%- if section.settings.heading != blank -%}
+    <div class="social-gallery__header">
+      <h2 class="social-gallery__title">{{ section.settings.heading | escape }}</h2>
+    </div>
+  {%- endif -%}
+
+  <div class="swiper social-gallery__slider" id="SocialGallerySwiper-{{ section.id }}">
+    <div class="swiper-wrapper">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- assign fallback_index = forloop.index0 | modulo: 5 | plus: 1 -%}
+          {%- case fallback_index -%}
+            {%- when 1 -%}
+              {%- assign fallback_image_url = default_image_1 -%}
+            {%- when 2 -%}
+              {%- assign fallback_image_url = default_image_2 -%}
+            {%- when 3 -%}
+              {%- assign fallback_image_url = default_image_3 -%}
+            {%- when 4 -%}
+              {%- assign fallback_image_url = default_image_4 -%}
+            {%- when 5 -%}
+              {%- assign fallback_image_url = default_image_5 -%}
+          {%- endcase -%}
+
+          <div
+            class="swiper-slide social-gallery__slide {% if block.settings.is_featured %}is-featured{% endif %}"
+            {{ block.shopify_attributes }}
+            data-block-index="{{ forloop.index0 }}"
+          >
+            {%- if block.settings.link != blank -%}
+              <a
+                href="{{ block.settings.link }}"
+                class="social-gallery__card"
+                aria-label="{{ block.settings.caption | default: section.settings.heading | escape }}"
+              >
+            {%- else -%}
+              <div class="social-gallery__card">
+            {%- endif -%}
+
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 1000
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'social-gallery__image',
+                  widths: '375, 550, 750, 1000',
+                  alt: block.settings.image.alt
+                | default: block.settings.caption
+                | escape
+              }}
+            {%- elsif fallback_image_url != blank -%}
+              <img
+                src="{{ fallback_image_url }}"
+                alt="{{ block.settings.caption | default: section.settings.heading | escape }}"
+                class="social-gallery__image"
+                loading="lazy"
+                width="600"
+                height="800"
+              >
+            {%- else -%}
+              {{ 'collection-' | append: fallback_index | placeholder_svg_tag: 'social-gallery__placeholder' }}
+            {%- endif -%}
+
+            {%- if block.settings.caption != blank -%}
+              <div class="social-gallery__caption">
+                <span>{{ block.settings.caption | escape }}</span>
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- else -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+
+      {%- else -%}
+        {%- for i in (1..5) -%}
+          {%- case i -%}
+            {%- when 1 -%}
+              {%- assign fallback_image_url = default_image_1 -%}
+            {%- when 2 -%}
+              {%- assign fallback_image_url = default_image_2 -%}
+            {%- when 3 -%}
+              {%- assign fallback_image_url = default_image_3 -%}
+            {%- when 4 -%}
+              {%- assign fallback_image_url = default_image_4 -%}
+            {%- when 5 -%}
+              {%- assign fallback_image_url = default_image_5 -%}
+          {%- endcase -%}
+
+          <div class="swiper-slide social-gallery__slide {% if i == 3 %}is-featured{% endif %}">
+            <div class="social-gallery__card">
+              {%- if fallback_image_url != blank -%}
+                <img
+                  src="{{ fallback_image_url }}"
+                  alt="Follow @Voltix"
+                  class="social-gallery__image"
+                  loading="lazy"
+                  width="600"
+                  height="800"
+                >
+              {%- else -%}
+                {{ 'collection-' | append: i | placeholder_svg_tag: 'social-gallery__placeholder' }}
+              {%- endif -%}
+
+              <div class="social-gallery__caption">
+                <span>Follow @Voltix</span>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <div class="swiper-pagination" id="SocialGalleryPagination-{{ section.id }}"></div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+
+<script>
+  (function () {
+    function initSocialGallerySwiper(sectionId) {
+      const sliderEl = document.getElementById('SocialGallerySwiper-' + sectionId);
+      if (!sliderEl || typeof Swiper === 'undefined') return;
+
+      if (sliderEl.swiper) {
+        sliderEl.swiper.destroy(true, true);
+      }
+
+      new Swiper(sliderEl, {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        grabCursor: true,
+        watchOverflow: false,
+        centerInsufficientSlides: true,
+        pagination: {
+          el: '#SocialGalleryPagination-' + sectionId,
+          type: 'progressbar',
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 0,
+          },
+          1024: {
+            slidesPerView: 5,
+            spaceBetween: 0,
+          },
+        },
+      });
+    }
+
+    function bootSection() {
+      if (typeof Swiper === 'undefined') {
+        setTimeout(bootSection, 100);
+        return;
+      }
+      initSocialGallerySwiper('{{ section.id }}');
+    }
+
+    document.addEventListener('DOMContentLoaded', bootSection);
+
+    document.addEventListener('shopify:section:load', function (event) {
+      if (event.detail.sectionId === '{{ section.id }}') {
+        bootSection();
+      }
+    });
+
+    document.addEventListener('shopify:block:select', function (event) {
+      if (event.detail.sectionId === '{{ section.id }}') {
+        const sliderEl = document.getElementById('SocialGallerySwiper-{{ section.id }}');
+        const index = parseInt(event.target.getAttribute('data-block-index'), 10);
+        if (sliderEl && sliderEl.swiper && !isNaN(index)) {
+          sliderEl.swiper.slideTo(index);
+        }
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Social Gallery Slider",
+  "tag": "section",
+  "class": "section-social-gallery",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Tiêu đề (Header)",
+      "default": "YOUR STYLE. YOUR SOUND"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Màu nền Section",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Màu chữ tiêu đề & Progress bar",
+      "default": "#3D3935"
+    },
+    {
+      "type": "header",
+      "content": "Kích thước chiều cao ảnh"
+    },
+    {
+      "type": "range",
+      "id": "base_height_desktop",
+      "min": 180,
+      "max": 450,
+      "step": 10,
+      "unit": "px",
+      "label": "Chiều cao mặc định (Desktop)",
+      "default": 260
+    },
+    {
+      "type": "range",
+      "id": "expanded_height_desktop",
+      "min": 280,
+      "max": 650,
+      "step": 10,
+      "unit": "px",
+      "label": "Chiều cao khi nhô lên (Desktop)",
+      "default": 420
+    },
+    {
+      "type": "range",
+      "id": "height_tablet",
+      "min": 200,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "label": "Chiều cao đồng nhất (Tablet)",
+      "default": 320
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "min": 200,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "label": "Chiều cao đồng nhất (Mobile)",
+      "default": 360
+    },
+    {
+      "type": "header",
+      "content": "Khoảng cách trên / dưới"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_item",
+      "name": "Khối ảnh",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Chọn ảnh"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_featured",
+          "label": "Làm nổi bật khối này",
+          "info": "Nếu bật, khối này sẽ mặc định nhô cao lên ở màn hình lớn khi người dùng chưa di chuột vào danh sách ảnh.",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Nội dung phần nhô ra ở đáy",
+          "default": "Follow @Voltix"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Đường dẫn (Route) khi ấn vào ảnh"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Social Gallery Slider",
+      "blocks": [
+        {
+          "type": "image_item",
+          "settings": {
+            "caption": "Follow @Voltix"
+          }
+        },
+        {
+          "type": "image_item",
+          "settings": {
+            "caption": "Follow @Voltix"
+          }
+        },
+        {
+          "type": "image_item",
+          "settings": {
+            "is_featured": true,
+            "caption": "Follow @Voltix"
+          }
+        },
+        {
+          "type": "image_item",
+          "settings": {
+            "caption": "Follow @Voltix"
+          }
+        },
+        {
+          "type": "image_item",
+          "settings": {
+            "caption": "Follow @Voltix"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
