@@ -1,0 +1,693 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+{%- style -%}
+  .cr-section-{{ section.id }} {
+    background: linear-gradient(180deg, {{ section.settings.bg_color_top }} 0%, {{ section.settings.bg_color_bottom }} 100%);
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Mona Sans', sans-serif;
+  }
+
+  .cr-container-{{ section.id }} {
+    max-width: {{ section.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .cr-section-{{ section.id }} .cr-heading {
+    color: {{ section.settings.heading_color }};
+    font-size: clamp(24px, 3.5vw, {{ section.settings.heading_size }}px);
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin: 0 0 40px 0;
+    line-height: 1.2;
+  }
+
+  .cr-section-{{ section.id }} .cr-swiper {
+    overflow: visible;
+    padding-bottom: 48px;
+  }
+
+  .cr-section-{{ section.id }} .swiper-slide {
+    height: auto;
+    display: flex;
+  }
+
+  .cr-section-{{ section.id }} .cr-card {
+    background-color: {{ section.settings.card_bg_color }};
+    border-radius: 16px;
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    gap: 18px;
+    box-sizing: border-box;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+  }
+
+  .cr-section-{{ section.id }} .cr-card-left {
+    flex: 0 0 calc(68% - 9px);
+    max-width: calc(68% - 9px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .cr-section-{{ section.id }} .cr-stars {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 14px;
+    color: {{ section.settings.star_color }};
+  }
+
+  .cr-section-{{ section.id }} .cr-stars svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+
+  .cr-section-{{ section.id }} .cr-review-text {
+    color: {{ section.settings.text_color }};
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0 0 24px 0;
+    flex-grow: 1;
+  }
+
+  /* Thông tin sản phẩm ở đáy bên trái */
+  .cr-section-{{ section.id }} .cr-product-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    transition: opacity 0.2s ease;
+  }
+
+  .cr-section-{{ section.id }} .cr-product-link:hover {
+    opacity: 0.75;
+  }
+
+  .cr-section-{{ section.id }} .cr-product-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background-color: #f3f3f3;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cr-section-{{ section.id }} .cr-product-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cr-section-{{ section.id }} .cr-product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .cr-section-{{ section.id }} .cr-product-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: {{ section.settings.text_color }};
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cr-section-{{ section.id }} .cr-product-prices {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+  }
+
+  .cr-section-{{ section.id }} .cr-price-current {
+    font-weight: 500;
+    color: {{ section.settings.text_color }};
+  }
+
+  .cr-section-{{ section.id }} .cr-price-compare {
+    text-decoration: line-through;
+    color: {{ section.settings.text_color }};
+    opacity: 0.45;
+  }
+
+  .cr-section-{{ section.id }} .cr-card-right {
+    flex: 0 0 calc(32% - 9px);
+    max-width: calc(32% - 9px);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: #f7f7f7;
+  }
+
+  .cr-section-{{ section.id }} .cr-customer-img-wrap {
+    width: 100%;
+    flex-grow: 1;
+    min-height: 190px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .cr-section-{{ section.id }} .cr-customer-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .cr-section-{{ section.id }} .cr-card:hover .cr-customer-img {
+    transform: scale(1.08);
+  }
+
+  .cr-section-{{ section.id }} .cr-customer-badge {
+    background-color: {{ section.settings.badge_bg_color }};
+    color: {{ section.settings.badge_text_color }};
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    z-index: 1;
+  }
+
+  .cr-section-{{ section.id }} .cr-verified-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+  }
+
+  .cr-section-{{ section.id }} .cr-customer-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cr-section-{{ section.id }} .cr-progressbar.swiper-pagination-progressbar {
+    top: auto !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%);
+    width: 110px !important;
+    height: 3px !important;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .cr-section-{{ section.id }} .cr-progressbar .swiper-pagination-progressbar-fill {
+    background: {{ section.settings.progressbar_color }} !important;
+    border-radius: 4px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .cr-section-{{ section.id }} .cr-heading {
+      margin-bottom: 28px;
+    }
+
+    .cr-container-{{ section.id }} {
+      padding: 0 16px;
+    }
+  }
+
+  @media screen and (max-width: 575px) {
+    .cr-section-{{ section.id }} .cr-card {
+      padding: 14px;
+      gap: 12px;
+    }
+
+    .cr-section-{{ section.id }} .cr-card-left {
+      flex: 0 0 calc(65% - 6px);
+      max-width: calc(65% - 6px);
+    }
+
+    .cr-section-{{ section.id }} .cr-card-right {
+      flex: 0 0 calc(35% - 6px);
+      max-width: calc(35% - 6px);
+    }
+
+    .cr-section-{{ section.id }} .cr-review-text {
+      font-size: 12.5px;
+      margin-bottom: 16px;
+    }
+
+    .cr-section-{{ section.id }} .cr-customer-img-wrap {
+      min-height: 150px;
+    }
+
+    .cr-section-{{ section.id }} .cr-customer-badge {
+      padding: 8px;
+      font-size: 11px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="cr-section-{{ section.id }}">
+  <div class="cr-container-{{ section.id }}">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="cr-heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    <div class="swiper cr-swiper" id="cr-swiper-{{ section.id }}">
+      <div class="swiper-wrapper">
+        {%- if section.blocks.size > 0 -%}
+          {%- for block in section.blocks -%}
+            {%- assign product = block.settings.product -%}
+            <div class="swiper-slide" {{ block.shopify_attributes }}>
+              <div class="cr-card">
+                <div class="cr-card-left">
+                  <div>
+                    <div class="cr-stars" aria-label="{{ block.settings.rating }} out of 5 stars">
+                      {%- for i in (1..block.settings.rating) -%}
+                        <svg viewBox="0 0 24 24">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                      {%- endfor -%}
+                    </div>
+                    <p class="cr-review-text">{{ block.settings.review_text }}</p>
+                  </div>
+
+                  {%- if product != blank -%}
+                    <a href="{{ product.url }}" class="cr-product-link">
+                      <div class="cr-product-thumb">
+                        {%- if product.featured_image != blank -%}
+                          {{
+                            product.featured_image
+                            | image_url: width: 120
+                            | image_tag: loading: 'lazy', alt: product.title
+                          }}
+                        {%- else -%}
+                          {{ 'product-1' | placeholder_svg_tag }}
+                        {%- endif -%}
+                      </div>
+                      <div class="cr-product-info">
+                        <p class="cr-product-title">{{ product.title }}</p>
+                        <div class="cr-product-prices">
+                          <span class="cr-price-current">{{ product.price | money }}</span>
+                          {%- if product.compare_at_price > product.price -%}
+                            <span class="cr-price-compare">{{ product.compare_at_price | money }}</span>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    </a>
+                  {%- else -%}
+                    <a href="#" class="cr-product-link">
+                      <div class="cr-product-thumb">
+                        {{ 'product-1' | placeholder_svg_tag }}
+                      </div>
+                      <div class="cr-product-info">
+                        <p class="cr-product-title">Volttx Studio Speaker</p>
+                        <div class="cr-product-prices">
+                          <span class="cr-price-current">Rs. 100.00</span>
+                          <span class="cr-price-compare">Rs. 200.00</span>
+                        </div>
+                      </div>
+                    </a>
+                  {%- endif -%}
+                </div>
+
+                <div class="cr-card-right">
+                  <div class="cr-customer-img-wrap">
+                    {%- if block.settings.customer_image != blank -%}
+                      {{
+                        block.settings.customer_image
+                        | image_url: width: 500
+                        | image_tag: class: 'cr-customer-img', loading: 'lazy', alt: block.settings.customer_name
+                      }}
+                    {%- else -%}
+                      <img
+                        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80"
+                        alt="{{ block.settings.customer_name | escape }}"
+                        class="cr-customer-img"
+                        loading="lazy"
+                        width="300"
+                        height="400"
+                      >
+                    {%- endif -%}
+                  </div>
+                  <div class="cr-customer-badge">
+                    <svg class="cr-verified-icon" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="10" fill="#2ecc71"/>
+                      <path d="M8 12.5L10.8 15.3L16 9.5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="cr-customer-name">{{ block.settings.customer_name }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+
+        {%- else -%}
+          {%- assign mock_names = 'Sarah M|Daniel Morgan|Amelia Carter|Lucas Bennett|Sophia Chen' | split: '|' -%}
+          {%- assign mock_reviews = "I've been using the Studio Speaker in my living room for a few weeks and really like how balanced it sounds. It gets loud enough for the room without taking up much space, and the design looks great on my shelf.|These headphones have quickly become my go-to for work and travel. The noise cancellation helps me stay focused, while the battery easily lasts through a full day of use. They're comfortable enough to wear for long sessions.|Great overall experience. The product feels well made, looks stylish, and is easy to use. I'm happy with the performance and would definitely recommend it. It's a reliable choice for everyday use.|Perfect companion for my daily commute. The sound is crisp and clear, and I can wear them for hours without any ear fatigue. Fast pairing with my phone too.|Exceeded my expectations for the price point! Solid build quality, deep bass, and super intuitive controls. Customer service was also very helpful when I had questions."
+            | split: '|'
+          -%}
+          {%- assign mock_products = 'Volttx Studio Speaker|Volttx AirWave Headphones|Volttx ProWatch X1 - Smart Watch|Volttx Buds Pro|Volttx Soundbar Mini'
+            | split: '|'
+          -%}
+          {%- assign mock_prices = 'Rs. 100.00|Rs. 300.00|Rs. 600.00|Rs. 150.00|Rs. 250.00' | split: '|' -%}
+          {%- assign mock_compares = 'Rs. 200.00|||Rs. 220.00|' | split: '|' -%}
+          {%- assign mock_images = 'https://images.unsplash.com/photo-1545454675-3531b543be5d?w=500&auto=format&fit=crop&q=80|https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80|https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80|https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=80|https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=80'
+            | split: '|'
+          -%}
+
+          {%- for i in (0..4) -%}
+            <div class="swiper-slide">
+              <div class="cr-card">
+                <div class="cr-card-left">
+                  <div>
+                    <div class="cr-stars">
+                      {%- for s in (1..5) -%}
+                        <svg viewBox="0 0 24 24">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                      {%- endfor -%}
+                    </div>
+                    <p class="cr-review-text">{{ mock_reviews[i] }}</p>
+                  </div>
+
+                  <a href="#" class="cr-product-link">
+                    <div class="cr-product-thumb">
+                      {{ 'product-' | append: forloop.index | placeholder_svg_tag }}
+                    </div>
+                    <div class="cr-product-info">
+                      <p class="cr-product-title">{{ mock_products[i] }}</p>
+                      <div class="cr-product-prices">
+                        <span class="cr-price-current">{{ mock_prices[i] }}</span>
+                        {%- if mock_compares[i] != blank -%}
+                          <span class="cr-price-compare">{{ mock_compares[i] }}</span>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="cr-card-right">
+                  <div class="cr-customer-img-wrap">
+                    <img
+                      src="{{ mock_images[i] }}"
+                      alt="{{ mock_names[i] }}"
+                      class="cr-customer-img"
+                      loading="lazy"
+                      width="300"
+                      height="400"
+                    >
+                  </div>
+                  <div class="cr-customer-badge">
+                    <svg class="cr-verified-icon" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="10" fill="#2ecc71"/>
+                      <path d="M8 12.5L10.8 15.3L16 9.5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="cr-customer-name">{{ mock_names[i] }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+
+      <div class="swiper-pagination cr-progressbar"></div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+<script>
+  (function() {
+    function initCustomerReviewsSwiper() {
+      var swiperEl = document.getElementById('cr-swiper-{{ section.id }}');
+      if (!swiperEl || typeof Swiper === 'undefined') return;
+
+      if (swiperEl.swiper) {
+        swiperEl.swiper.destroy(true, true);
+      }
+
+      new Swiper(swiperEl, {
+        grabCursor: true,
+        loop: {{ section.settings.enable_loop | json }},
+        speed: 600,
+        spaceBetween: 16,
+        slidesPerView: 1,
+        pagination: {
+          el: swiperEl.querySelector('.cr-progressbar'),
+          type: 'progressbar'
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: 1,
+            spaceBetween: 20
+          },
+          1024: {
+            slidesPerView: 2,
+            spaceBetween: 24
+          }
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof Swiper !== 'undefined') {
+        initCustomerReviewsSwiper();
+      } else {
+        window.addEventListener('load', initCustomerReviewsSwiper);
+      }
+    });
+
+    document.addEventListener('shopify:section:load', function(event) {
+      if (event.detail.sectionId === '{{ section.id }}') {
+        initCustomerReviewsSwiper();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Customer Reviews Slider",
+  "tag": "section",
+  "class": "section-customer-reviews",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Tiêu đề lớn",
+      "default": "WHAT OUR CUSTOMERS SAY"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 24,
+      "max": 56,
+      "step": 2,
+      "unit": "px",
+      "label": "Kích thước tiêu đề (PC)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 960,
+      "max": 1440,
+      "step": 20,
+      "unit": "px",
+      "label": "Độ rộng khung chứa (Container)",
+      "default": 1160
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_loop",
+      "label": "Lặp lại slide (Infinite Loop)",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Màu sắc"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_top",
+      "label": "Màu nền trên (Gradient)",
+      "default": "#b3be9f"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_bottom",
+      "label": "Màu nền dưới (Gradient)",
+      "default": "#6d7b58"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Màu tiêu đề",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Màu nền Card",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Màu chữ trong Card",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Màu ngôi sao",
+      "default": "#f59e0b"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Màu nền thanh tên khách hàng",
+      "default": "#3b4236"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Màu chữ tên khách hàng",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "progressbar_color",
+      "label": "Màu thanh Progress Bar",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Khoảng cách trên / dưới"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review_card",
+      "name": "Review Card",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Số sao đánh giá",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "Nội dung đánh giá",
+          "default": "I've been using the Studio Speaker in my living room for a few weeks and really like how balanced it sounds. It gets loud enough for the room without taking up much space, and the design looks great on my shelf."
+        },
+        {
+          "type": "image_picker",
+          "id": "customer_image",
+          "label": "Ảnh khách hàng / trải nghiệm"
+        },
+        {
+          "type": "text",
+          "id": "customer_name",
+          "label": "Tên khách hàng",
+          "default": "Sarah M"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Sản phẩm được đánh giá",
+          "info": "Tự động lấy ảnh, tên, giá, giá gốc và link từ sản phẩm được chọn."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Reviews Slider",
+      "blocks": [
+        {
+          "type": "review_card",
+          "settings": {
+            "rating": 5,
+            "customer_name": "Sarah M",
+            "review_text": "I've been using the Studio Speaker in my living room for a few weeks and really like how balanced it sounds. It gets loud enough for the room without taking up much space, and the design looks great on my shelf."
+          }
+        },
+        {
+          "type": "review_card",
+          "settings": {
+            "rating": 5,
+            "customer_name": "Daniel Morgan",
+            "review_text": "These headphones have quickly become my go-to for work and travel. The noise cancellation helps me stay focused, while the battery easily lasts through a full day of use. They're comfortable enough to wear for long sessions."
+          }
+        },
+        {
+          "type": "review_card",
+          "settings": {
+            "rating": 5,
+            "customer_name": "Amelia Carter",
+            "review_text": "Great overall experience. The product feels well made, looks stylish, and is easy to use. I'm happy with the performance and would definitely recommend it. It's a reliable choice for everyday use."
+          }
+        },
+        {
+          "type": "review_card",
+          "settings": {
+            "rating": 5,
+            "customer_name": "Lucas Bennett",
+            "review_text": "Perfect companion for my daily commute. The sound is crisp and clear, and I can wear them for hours without any ear fatigue. Fast pairing with my phone too."
+          }
+        },
+        {
+          "type": "review_card",
+          "settings": {
+            "rating": 5,
+            "customer_name": "Sophia Chen",
+            "review_text": "Exceeded my expectations for the price point! Solid build quality, deep bass, and super intuitive controls. Customer service was also very helpful."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

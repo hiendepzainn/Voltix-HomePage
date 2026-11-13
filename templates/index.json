@@ -28,7 +28,18 @@
     "section4": {
       "type": "marquee",
       "settings": {}
+    },
+    "section6": {
+      "type": "customer-reviews",
+      "settings": {}
     }
   },
-  "order": ["section1", "section2", "section3", "section5", "section4"]
+  "order": [
+    "section1",
+    "section2",
+    "section3",
+    "section5",
+    "section4",
+    "section6"
+  ]
 }
