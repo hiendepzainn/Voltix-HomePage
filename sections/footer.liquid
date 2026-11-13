@@ -1,123 +1,592 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
-  </div>
+{%- liquid
+  assign default_currencies = 'USD,EUR,GBP,VND' | split: ','
+  assign default_languages = 'français,English,Español,Tiếng Việt' | split: ','
+  assign default_payments = 'visa,master,american_express,paypal,diners_club,discover' | split: ','
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+  assign currency_menu = section.settings.currency_menu
+  assign language_menu = section.settings.language_menu
+-%}
 
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
+<style>
+  #voltix-footer-{{ section.id }} {
+    --top-bg: {{ section.settings.top_bg_color }};
+    --top-text: {{ section.settings.top_text_color }};
+    --bottom-bg: {{ section.settings.bottom_bg_color }};
+    --bottom-text: {{ section.settings.bottom_text_color }};
+    --dropdown-bg: {{ section.settings.dropdown_bg_color }};
+    --dropdown-text: {{ section.settings.dropdown_text_color }};
+    width: 100%;
+    font-family: 'Mona Sans', sans-serif;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-top {
+    background-color: var(--top-bg);
+    color: var(--top-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: {{ section.settings.top_padding_y }}px 20px;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-brand-title {
+    margin: 0;
+    font-size: clamp(3rem, 7.5vw, {{ section.settings.title_font_size }}px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--top-text);
+    text-transform: uppercase;
+    user-select: none;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-bottom {
+    background-color: var(--bottom-bg);
+    color: var(--bottom-text);
+    padding: {{ section.settings.bottom_padding_y }}px 24px;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-bottom-container {
+    max-width: {{ section.settings.container_width }}px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-col {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-col--switchers {
+    justify-content: center;
+    gap: 20px;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-col--copyright {
+    justify-content: center;
+    text-align: center;
+    flex: 1.5;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-col--payments {
+    justify-content: center;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-dropdown-toggle {
+    background: transparent;
+    border: none;
+    color: var(--bottom-text);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 4px;
+    transition: opacity 0.2s ease;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-dropdown-toggle:hover {
+    opacity: 0.8;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-dropdown-icon {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.25s ease;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-dropdown.is-open .vf-dropdown-icon {
+    transform: rotate(180deg);
+  }
+
+  #voltix-footer-{{ section.id }} .vf-dropdown-menu {
+    position: absolute;
+    left: 0;
+    {% if section.settings.dropdown_direction == 'up' %}
+      bottom: calc(100% + 8px);
+    {% else %}
+      top: calc(100% + 8px);
     {% endif %}
+    min-width: 130px;
+    background-color: var(--dropdown-bg);
+    color: var(--dropdown-text);
+    border-radius: 6px;
+    padding: 6px 0;
+    margin: 0;
+    list-style: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY({% if section.settings.dropdown_direction == 'up' %}6px{% else %}-6px{% endif %});
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    z-index: 50;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-dropdown.is-open .vf-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  #voltix-footer-{{ section.id }} .vf-dropdown-item a,
+  #voltix-footer-{{ section.id }} .vf-dropdown-item button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: var(--dropdown-text);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-dropdown-item a:hover,
+  #voltix-footer-{{ section.id }} .vf-dropdown-item button:hover {
+    background-color: rgba(128, 128, 128, 0.15);
+  }
+
+  #voltix-footer-{{ section.id }} .vf-copyright-text {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--bottom-text);
+  }
+
+  #voltix-footer-{{ section.id }} .vf-copyright-text a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-payment-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-payment-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-payment-item svg {
+    width: 38px;
+    height: 24px;
+    border-radius: 3px;
+    display: block;
+  }
+
+  #voltix-footer-{{ section.id }} .vf-payment-custom-img {
+    height: 24px;
+    width: auto;
+    max-width: 48px;
+    object-fit: contain;
+    border-radius: 3px;
+    display: block;
+  }
+
+  @media screen and (max-width: 991px) {
+    #voltix-footer-{{ section.id }} .vf-top {
+      padding: {{ section.settings.top_padding_y | times: 0.7 | round }}px 16px;
+    }
+
+    #voltix-footer-{{ section.id }} .vf-bottom-container {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 18px;
+    }
+
+    #voltix-footer-{{ section.id }} .vf-col {
+      width: 100%;
+      justify-content: center;
+    }
+
+    #voltix-footer-{{ section.id }} .vf-dropdown-menu {
+      left: 50%;
+      transform: translateX(-50%) translateY({% if section.settings.dropdown_direction == 'up' %}6px{% else %}-6px{% endif %});
+    }
+
+    #voltix-footer-{{ section.id }} .vf-dropdown.is-open .vf-dropdown-menu {
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+</style>
+
+<footer id="voltix-footer-{{ section.id }}" class="vf-footer-section">
+  <div class="vf-top">
+    <h2 class="vf-brand-title">
+      {{ section.settings.brand_title | default: 'VOLTIX' | escape }}
+    </h2>
+  </div>
+
+  <div class="vf-bottom">
+    <div class="vf-bottom-container">
+      <div class="vf-col vf-col--switchers">
+        <div class="vf-dropdown" data-vf-dropdown>
+          {%- assign initial_currency = section.settings.default_currency_label | default: 'USD' -%}
+          {%- if currency_menu != blank and currency_menu.links.size > 0 -%}
+            {%- assign initial_currency = currency_menu.links.first.title -%}
+          {%- endif -%}
+
+          <button type="button" class="vf-dropdown-toggle" aria-expanded="false" data-vf-toggle>
+            <span data-vf-label>{{ initial_currency }}</span>
+            <svg class="vf-dropdown-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <ul class="vf-dropdown-menu">
+            {%- if currency_menu != blank and currency_menu.links.size > 0 -%}
+              {%- for link in currency_menu.links -%}
+                <li class="vf-dropdown-item">
+                  <a href="{{ link.url }}" data-vf-option="{{ link.title | escape }}">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            {%- else -%}
+              {%- for curr in default_currencies -%}
+                <li class="vf-dropdown-item">
+                  <button type="button" data-vf-option="{{ curr }}">{{ curr }}</button>
+                </li>
+              {%- endfor -%}
+            {%- endif -%}
+          </ul>
+        </div>
+
+        <div class="vf-dropdown" data-vf-dropdown>
+          {%- assign initial_language = section.settings.default_language_label | default: 'français' -%}
+          {%- if language_menu != blank and language_menu.links.size > 0 -%}
+            {%- assign initial_language = language_menu.links.first.title -%}
+          {%- endif -%}
+
+          <button type="button" class="vf-dropdown-toggle" aria-expanded="false" data-vf-toggle>
+            <span data-vf-label>{{ initial_language }}</span>
+            <svg class="vf-dropdown-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <ul class="vf-dropdown-menu">
+            {%- if language_menu != blank and language_menu.links.size > 0 -%}
+              {%- for link in language_menu.links -%}
+                <li class="vf-dropdown-item">
+                  <a href="{{ link.url }}" data-vf-option="{{ link.title | escape }}">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            {%- else -%}
+              {%- for lang in default_languages -%}
+                <li class="vf-dropdown-item">
+                  <button type="button" data-vf-option="{{ lang }}">{{ lang }}</button>
+                </li>
+              {%- endfor -%}
+            {%- endif -%}
+          </ul>
+        </div>
+      </div>
+
+      <div class="vf-col vf-col--copyright">
+        <p class="vf-copyright-text">
+          {{ section.settings.copyright_text }}
+        </p>
+      </div>
+
+      <div class="vf-col vf-col--payments">
+        <ul class="vf-payment-list" role="list">
+          {%- if section.blocks.size > 0 -%}
+            {%- for block in section.blocks -%}
+              <li class="vf-payment-item" {{ block.shopify_attributes }}>
+                {%- if block.settings.custom_icon != blank -%}
+                  {{
+                    block.settings.custom_icon
+                    | image_url: width: 96
+                    | image_tag: class: 'vf-payment-custom-img', loading: 'lazy', alt: block.settings.card_type
+                  }}
+                {%- else -%}
+                  {{ block.settings.card_type | payment_type_svg_tag }}
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for payment in default_payments -%}
+              <li class="vf-payment-item">
+                {{ payment | payment_type_svg_tag }}
+              </li>
+            {%- endfor -%}
+          {%- endif -%}
+        </ul>
+      </div>
+    </div>
   </div>
 </footer>
 
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
-<div>hehe</div>
+<script>
+  (function () {
+    const sectionEl = document.getElementById('voltix-footer-{{ section.id }}');
+    if (!sectionEl) return;
 
-{% stylesheet %}
-  footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
-  }
-  footer a {
-    text-decoration: none;
-    color: var(--color-foreground);
-  }
-  footer .footer__links,
-  footer .footer__payment {
-    display: flex;
-    gap: 1rem;
-  }
-{% endstylesheet %}
+    const dropdowns = sectionEl.querySelectorAll('[data-vf-dropdown]');
+
+    dropdowns.forEach((dropdown) => {
+      const toggleBtn = dropdown.querySelector('[data-vf-toggle]');
+      const labelEl = dropdown.querySelector('[data-vf-label]');
+      const options = dropdown.querySelectorAll('[data-vf-option]');
+
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.contains('is-open');
+
+        dropdowns.forEach((d) => {
+          d.classList.remove('is-open');
+          d.querySelector('[data-vf-toggle]').setAttribute('aria-expanded', 'false');
+        });
+
+        if (!isOpen) {
+          dropdown.classList.add('is-open');
+          toggleBtn.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      options.forEach((opt) => {
+        opt.addEventListener('click', (e) => {
+          const selectedValue = opt.getAttribute('data-vf-option');
+          if (labelEl && selectedValue) {
+            labelEl.textContent = selectedValue;
+          }
+          dropdown.classList.remove('is-open');
+          toggleBtn.setAttribute('aria-expanded', 'false');
+
+          if (opt.tagName === 'A' && opt.getAttribute('href') === '#') {
+            e.preventDefault();
+          }
+        });
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!sectionEl.contains(e.target)) {
+        dropdowns.forEach((d) => {
+          d.classList.remove('is-open');
+          d.querySelector('[data-vf-toggle]').setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+  })();
+</script>
 
 {% schema %}
 {
-  "name": "t:general.footer",
+  "name": "Voltix Footer",
+  "tag": "section",
+  "class": "section-voltix-footer",
   "settings": [
     {
-      "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
+      "type": "header",
+      "content": "1. Phần tiêu đề lớn (Ở trên)"
     },
     {
-      "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "t:labels.show_payment_icons",
-      "default": true
+      "type": "text",
+      "id": "brand_title",
+      "label": "Chữ tiêu đề lớn",
+      "default": "VOLTIX"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 48,
+      "max": 140,
+      "step": 2,
+      "unit": "px",
+      "label": "Cỡ chữ tối đa (Desktop)",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "top_padding_y",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Khoảng đệm trên/dưới (Phần trên)",
+      "default": 56
+    },
+    {
+      "type": "header",
+      "content": "2. Phần chuyển đổi (Tiền tệ & Ngôn ngữ)"
+    },
+    {
+      "type": "link_list",
+      "id": "currency_menu",
+      "label": "Menu Đơn vị tiền tệ",
+      "info": "Chọn menu trong Navigation. Nếu để trống sẽ hiển thị mặc định (USD, EUR, GBP, VND)."
+    },
+    {
+      "type": "text",
+      "id": "default_currency_label",
+      "label": "Đơn vị tiền mặc định hiển thị",
+      "default": "USD"
+    },
+    {
+      "type": "link_list",
+      "id": "language_menu",
+      "label": "Menu Ngôn ngữ",
+      "info": "Chọn menu trong Navigation. Nếu để trống sẽ hiển thị mặc định (français, English, Español, Tiếng Việt)."
+    },
+    {
+      "type": "text",
+      "id": "default_language_label",
+      "label": "Ngôn ngữ mặc định hiển thị",
+      "default": "français"
+    },
+    {
+      "type": "select",
+      "id": "dropdown_direction",
+      "label": "Hướng mở Dropdown Menu",
+      "options": [
+        {
+          "value": "up",
+          "label": "Mở lên trên (Khuyên dùng cho Footer)"
+        },
+        {
+          "value": "down",
+          "label": "Mở xuống dưới"
+        }
+      ],
+      "default": "up"
+    },
+    {
+      "type": "header",
+      "content": "3. Phần thông tin bản quyền (Copyright)"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "copyright_text",
+      "label": "Nội dung Text / Copyright",
+      "default": "Copyright © 2026, Voltix. Commerce électronique propulsé par Shopify"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "label": "Độ rộng khung chứa (Phần dưới)",
+      "default": 1320
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding_y",
+      "min": 12,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Khoảng đệm trên/dưới (Phần dưới)",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "4. Bảng màu (Colors)"
+    },
+    {
+      "type": "color",
+      "id": "top_bg_color",
+      "label": "Màu nền phần trên",
+      "default": "#2C3227"
+    },
+    {
+      "type": "color",
+      "id": "top_text_color",
+      "label": "Màu chữ tiêu đề lớn",
+      "default": "#CFD793"
+    },
+    {
+      "type": "color",
+      "id": "bottom_bg_color",
+      "label": "Màu nền phần dưới",
+      "default": "#192014"
+    },
+    {
+      "type": "color",
+      "id": "bottom_text_color",
+      "label": "Màu chữ phần dưới",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "dropdown_bg_color",
+      "label": "Màu nền menu Dropdown",
+      "default": "#2C3227"
+    },
+    {
+      "type": "color",
+      "id": "dropdown_text_color",
+      "label": "Màu chữ menu Dropdown",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "payment_card",
+      "name": "Thẻ thanh toán",
+      "settings": [
+        {
+          "type": "select",
+          "id": "card_type",
+          "label": "Chọn loại thẻ hỗ trợ",
+          "options": [
+            { "value": "visa", "label": "Visa" },
+            { "value": "master", "label": "Mastercard" },
+            { "value": "american_express", "label": "American Express (AMEX)" },
+            { "value": "paypal", "label": "PayPal" },
+            { "value": "diners_club", "label": "Diners Club" },
+            { "value": "discover", "label": "Discover" },
+            { "value": "apple_pay", "label": "Apple Pay" },
+            { "value": "google_pay", "label": "Google Pay" },
+            { "value": "shopify_pay", "label": "Shop Pay" },
+            { "value": "jcb", "label": "JCB" }
+          ],
+          "default": "visa"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Ảnh thẻ tùy chỉnh (Tùy chọn)",
+          "info": "Nếu tải ảnh lên, hệ thống sẽ ưu tiên hiển thị ảnh này thay cho icon mặc định."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Voltix Footer",
+      "blocks": [
+        { "type": "payment_card", "settings": { "card_type": "visa" } },
+        { "type": "payment_card", "settings": { "card_type": "master" } },
+        { "type": "payment_card", "settings": { "card_type": "american_express" } },
+        { "type": "payment_card", "settings": { "card_type": "paypal" } },
+        { "type": "payment_card", "settings": { "card_type": "diners_club" } },
+        { "type": "payment_card", "settings": { "card_type": "discover" } }
+      ]
     }
   ]
 }
