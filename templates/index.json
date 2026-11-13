@@ -24,7 +24,11 @@
     "section5": {
       "type": "offer",
       "settings": {}
+    },
+    "section4": {
+      "type": "marquee",
+      "settings": {}
     }
   },
-  "order": ["section1", "section2", "section3", "section5"]
+  "order": ["section1", "section2", "section3", "section5", "section4"]
 }
