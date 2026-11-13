@@ -36,6 +36,10 @@
     "section7": {
       "type": "social-gallery-slider",
       "settings": {}
+    },
+    "section8": {
+      "type": "footer-community",
+      "settings": {}
     }
   },
   "order": [
@@ -45,6 +49,7 @@
     "section5",
     "section4",
     "section6",
-    "section7"
+    "section7",
+    "section8"
   ]
 }

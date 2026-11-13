@@ -1,0 +1,763 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --bg-color: {{ section.settings.bg_color }};
+    --accent-color: {{ section.settings.accent_color }};
+    --text-color: {{ section.settings.text_color }};
+    --border-color: {{ section.settings.border_color }};
+    --btn-bg: {{ section.settings.btn_bg_color }};
+    --btn-text: {{ section.settings.btn_text_color }};
+    --section-pt: {{ section.settings.padding_top }}px;
+    --section-pb: {{ section.settings.padding_bottom }}px;
+  }
+
+  .voltix-footer-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--section-pt);
+    padding-bottom: var(--section-pb);
+    font-family: inherit;
+    overflow: hidden;
+    font-family: 'Mona Sans', sans-serif;
+  }
+
+
+  .voltix-footer__part-1 {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 20px 56px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .voltix-footer__heading {
+    color: var(--accent-color);
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+    margin: 0 0 14px;
+    text-transform: uppercase;
+  }
+
+  .voltix-footer__desc {
+    color: var(--text-color);
+    font-size: clamp(13px, 1.5vw, 15px);
+    line-height: 1.6;
+    margin: 0 auto 32px;
+    max-width: 640px;
+    opacity: 0.92;
+  }
+
+  /* Form nhập Email */
+  .voltix-footer__form-wrapper {
+    max-width: 560px;
+    margin: 0 auto 32px;
+  }
+
+  .voltix-footer__input-group {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 999px;
+    padding: 5px 5px 5px 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .voltix-footer__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #182013;
+    font-size: 14px;
+    padding: 10px 12px 10px 0;
+    width: 100%;
+  }
+
+  .voltix-footer__input::placeholder {
+    color: #555555;
+  }
+
+  .voltix-footer__submit {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border: 1.5px solid var(--btn-bg);
+    border-radius: 999px;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .voltix-footer__submit:hover {
+    background-color: var(--btn-text);
+    color: var(--btn-bg);
+    border-color: var(--btn-bg);
+  }
+
+  .voltix-footer__message {
+    margin-top: 12px;
+    font-size: 13px;
+  }
+
+  .voltix-footer__message--success {
+    color: var(--accent-color);
+  }
+
+  .voltix-footer__message--error {
+    color: #ff8a8a;
+  }
+
+  .voltix-footer__socials {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 16px 32px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .voltix-footer__social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+
+  .voltix-footer__social-link:hover {
+    color: var(--accent-color);
+    transform: translateY(-2px);
+  }
+
+  .voltix-footer__social-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .voltix-footer__social-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  .voltix-footer__part-2 {
+    width: 100%;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .voltix-footer__grid {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .voltix-footer__col {
+    padding: 48px 40px;
+    border-right: 1px solid var(--border-color);
+    box-sizing: border-box;
+  }
+
+  .voltix-footer__col:last-child {
+    border-right: none;
+  }
+
+  .voltix-footer__text-content {
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: var(--text-color);
+    opacity: 0.9;
+    margin: 0;
+  }
+
+  .voltix-footer__col-title {
+    color: var(--accent-color);
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin: 0 0 22px;
+  }
+
+  .voltix-footer__nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .voltix-footer__nav-link {
+    display: inline-block;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 13.5px;
+    line-height: 1.4;
+    opacity: 0.9;
+    transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.25s ease, opacity 0.25s ease;
+  }
+
+  .voltix-footer__nav-link:hover,
+  .voltix-footer__nav-link:focus,
+  .voltix-footer__nav-link:active,
+  .voltix-footer__nav-link.is-touched {
+    transform: translateX(7px);
+    color: var(--accent-color);
+    opacity: 1;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .voltix-footer__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .voltix-footer__col {
+      padding: 36px 28px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .voltix-footer__col:nth-child(2n) {
+      border-right: none;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .voltix-footer__part-1 {
+      padding: 0 16px 40px;
+    }
+
+    .voltix-footer__input-group {
+      flex-direction: column;
+      background-color: transparent;
+      padding: 0;
+      box-shadow: none;
+      gap: 12px;
+    }
+
+    .voltix-footer__input {
+      background-color: #ffffff;
+      border-radius: 999px;
+      padding: 14px 20px;
+      box-sizing: border-box;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    }
+
+    .voltix-footer__submit {
+      width: 100%;
+      padding: 14px 24px;
+      border-color: var(--accent-color);
+    }
+
+    .voltix-footer__socials {
+      gap: 14px 20px;
+    }
+
+    .voltix-footer__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .voltix-footer__col {
+      padding: 28px 20px;
+      border-right: none !important;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .voltix-footer__col:last-child {
+      border-bottom: none;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign social_blocks = section.blocks | where: 'type', 'social_link'
+  assign has_column_blocks = false
+  for block in section.blocks
+    if block.type == 'text_block' or block.type == 'nav_block'
+      assign has_column_blocks = true
+      break
+    endif
+  endfor
+-%}
+
+<footer class="voltix-footer-{{ section.id }}">
+  <div class="voltix-footer__part-1">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="voltix-footer__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.description != blank -%}
+      <p class="voltix-footer__desc">{{ section.settings.description }}</p>
+    {%- endif -%}
+
+    <div class="voltix-footer__form-wrapper">
+      {%- form 'customer', class: 'voltix-footer__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="voltix-footer__input-group">
+          <input
+            type="email"
+            name="contact[email]"
+            class="voltix-footer__input"
+            value="{{ form.email }}"
+            placeholder="{{ section.settings.email_placeholder | default: 'Email address...' }}"
+            aria-label="{{ section.settings.email_placeholder | default: 'Email address...' }}"
+            required
+          >
+          <button type="submit" class="voltix-footer__submit">
+            {{ section.settings.button_label | default: 'SUBSCRIBE' }}
+          </button>
+        </div>
+
+        {%- if form.posted_successfully? -%}
+          <div class="voltix-footer__message voltix-footer__message--success">
+            {{ section.settings.success_message | default: 'Thanks for subscribing!' }}
+          </div>
+        {%- elsif form.errors -%}
+          <div class="voltix-footer__message voltix-footer__message--error">
+            {{ form.errors.translated_fields.email | capitalize }}
+            {{ form.errors.messages.email }}
+          </div>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+
+    <ul class="voltix-footer__socials">
+      {%- if social_blocks.size > 0 -%}
+        {%- for block in social_blocks -%}
+          <li {{ block.shopify_attributes }}>
+            <a
+              href="{{ block.settings.url | default: '#' }}"
+              class="voltix-footer__social-link"
+              target="_blank"
+              rel="noopener"
+            >
+              <span class="voltix-footer__social-icon">
+                {%- case block.settings.icon -%}
+                  {%- when 'facebook' -%}
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/>
+                    </svg>
+                  {%- when 'instagram' -%}
+                    <svg viewBox="0 0 24 24">
+                      <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3Z"/>
+                    </svg>
+                  {%- when 'youtube' -%}
+                    <svg viewBox="0 0 24 24">
+                      <path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73Z"/>
+                    </svg>
+                  {%- when 'twitter' -%}
+                    <svg viewBox="0 0 24 24">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                  {%- when 'pinterest' -%}
+                    <svg viewBox="0 0 24 24">
+                      <path d="M9.04 21.54c.96.29 1.93.46 2.96.46a10 10 0 0 0 10-10A10 10 0 0 0 12 2 10 10 0 0 0 2 12c0 4.25 2.67 7.9 6.44 9.34-.09-.78-.18-2.07 0-2.96l1.15-4.94s-.29-.58-.29-1.5c0-1.38.86-2.41 1.84-2.41.86 0 1.26.63 1.26 1.44 0 .86-.57 2.19-.86 3.4-.24.98.52 1.84 1.52 1.84 1.78 0 3.16-1.9 3.16-4.58 0-2.4-1.72-4.04-4.19-4.04-2.82 0-4.48 2.1-4.48 4.31 0 .86.28 1.73.74 2.3.09.06.09.14.06.29l-.29 1.09c-.06.18-.18.23-.35.12-1.38-.64-2.24-2.65-2.24-4.26 0-3.47 2.53-6.62 7.25-6.62 3.8 0 6.73 2.7 6.73 6.33 0 3.79-2.39 6.84-5.69 6.84-1.12 0-2.16-.57-2.53-1.26l-.69 2.65c-.26.98-.94 2.19-1.41 2.93Z"/>
+                    </svg>
+                  {%- when 'tiktok' -%}
+                    <svg viewBox="0 0 24 24">
+                      <path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48Z"/>
+                    </svg>
+                {%- endcase -%}
+              </span>
+              <span>{{ block.settings.label }}</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        <li>
+          <a href="#" class="voltix-footer__social-link">
+            <span class="voltix-footer__social-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/>
+              </svg>
+            </span>
+            <span>Facebook</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="voltix-footer__social-link">
+            <span class="voltix-footer__social-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3Z"/>
+              </svg>
+            </span>
+            <span>Instagram</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="voltix-footer__social-link">
+            <span class="voltix-footer__social-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73Z"/>
+              </svg>
+            </span>
+            <span>YouTube</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="voltix-footer__social-link">
+            <span class="voltix-footer__social-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </span>
+            <span>X (Twitter)</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="voltix-footer__social-link">
+            <span class="voltix-footer__social-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M9.04 21.54c.96.29 1.93.46 2.96.46a10 10 0 0 0 10-10A10 10 0 0 0 12 2 10 10 0 0 0 2 12c0 4.25 2.67 7.9 6.44 9.34-.09-.78-.18-2.07 0-2.96l1.15-4.94s-.29-.58-.29-1.5c0-1.38.86-2.41 1.84-2.41.86 0 1.26.63 1.26 1.44 0 .86-.57 2.19-.86 3.4-.24.98.52 1.84 1.52 1.84 1.78 0 3.16-1.9 3.16-4.58 0-2.4-1.72-4.04-4.19-4.04-2.82 0-4.48 2.1-4.48 4.31 0 .86.28 1.73.74 2.3.09.06.09.14.06.29l-.29 1.09c-.06.18-.18.23-.35.12-1.38-.64-2.24-2.65-2.24-4.26 0-3.47 2.53-6.62 7.25-6.62 3.8 0 6.73 2.7 6.73 6.33 0 3.79-2.39 6.84-5.69 6.84-1.12 0-2.16-.57-2.53-1.26l-.69 2.65c-.26.98-.94 2.19-1.41 2.93Z"/>
+              </svg>
+            </span>
+            <span>Pinterest</span>
+          </a>
+        </li>
+      {%- endif -%}
+    </ul>
+  </div>
+
+  <div class="voltix-footer__part-2">
+    <div class="voltix-footer__grid">
+      {%- if has_column_blocks -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'text_block' -%}
+            <div class="voltix-footer__col" {{ block.shopify_attributes }}>
+              <p class="voltix-footer__text-content">{{ block.settings.content }}</p>
+            </div>
+          {%- elsif block.type == 'nav_block' -%}
+            <div class="voltix-footer__col" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <h3 class="voltix-footer__col-title">{{ block.settings.heading }}</h3>
+              {%- endif -%}
+
+              <ul class="voltix-footer__nav-list">
+                {%- if block.settings.menu != blank and block.settings.menu.links.size > 0 -%}
+                  {%- for link in block.settings.menu.links -%}
+                    <li>
+                      <a href="{{ link.url }}" class="voltix-footer__nav-link">
+                        {{ link.title }}
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- assign heading_upcase = block.settings.heading | upcase | strip -%}
+                  {%- if heading_upcase == 'HELP INFO' -%}
+                    <li><a href="#" class="voltix-footer__nav-link">About Us</a></li>
+                    <li><a href="#" class="voltix-footer__nav-link">Blogs</a></li>
+                    <li><a href="#" class="voltix-footer__nav-link">Contact Us</a></li>
+                    <li><a href="#" class="voltix-footer__nav-link">FAQ</a></li>
+                  {%- elsif heading_upcase == 'POLICIES' -%}
+                    <li><a href="#" class="voltix-footer__nav-link">Privacy Policy</a></li>
+                    <li><a href="#" class="voltix-footer__nav-link">Refund Policy</a></li>
+                    <li><a href="#" class="voltix-footer__nav-link">Shipping Policy</a></li>
+                    <li><a href="#" class="voltix-footer__nav-link">Terms of Service</a></li>
+                  {%- else -%}
+                    <li><a href="#" class="voltix-footer__nav-link">Headphones</a></li>
+                    <li><a href="#" class="voltix-footer__nav-link">Earbuds</a></li>
+                    <li><a href="#" class="voltix-footer__nav-link">Speakers</a></li>
+                    <li><a href="#" class="voltix-footer__nav-link">Smart Watch</a></li>
+                  {%- endif -%}
+                {%- endif -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        <div class="voltix-footer__col">
+          <p class="voltix-footer__text-content">
+            We're Passionate About Creating Smarter, Better-connected Lifestyles Through Innovative Electronics Designed
+            To Bring Greater Convenience, Comfort, And Efficiency To Everyday Modern Living.
+          </p>
+        </div>
+
+        <div class="voltix-footer__col">
+          <h3 class="voltix-footer__col-title">SHOP</h3>
+          <ul class="voltix-footer__nav-list">
+            <li><a href="#" class="voltix-footer__nav-link">Headphones</a></li>
+            <li><a href="#" class="voltix-footer__nav-link">Earbuds</a></li>
+            <li><a href="#" class="voltix-footer__nav-link">Speakers</a></li>
+            <li><a href="#" class="voltix-footer__nav-link">Smart Watch</a></li>
+          </ul>
+        </div>
+
+        <div class="voltix-footer__col">
+          <h3 class="voltix-footer__col-title">HELP INFO</h3>
+          <ul class="voltix-footer__nav-list">
+            <li><a href="#" class="voltix-footer__nav-link">About Us</a></li>
+            <li><a href="#" class="voltix-footer__nav-link">Blogs</a></li>
+            <li><a href="#" class="voltix-footer__nav-link">Contact Us</a></li>
+            <li><a href="#" class="voltix-footer__nav-link">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="voltix-footer__col">
+          <h3 class="voltix-footer__col-title">POLICIES</h3>
+          <ul class="voltix-footer__nav-list">
+            <li><a href="#" class="voltix-footer__nav-link">Privacy Policy</a></li>
+            <li><a href="#" class="voltix-footer__nav-link">Refund Policy</a></li>
+            <li><a href="#" class="voltix-footer__nav-link">Shipping Policy</a></li>
+            <li><a href="#" class="voltix-footer__nav-link">Terms of Service</a></li>
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const sectionEl = document.querySelector('.voltix-footer-{{ section.id }}');
+    if (!sectionEl) return;
+
+    const navLinks = sectionEl.querySelectorAll('.voltix-footer__nav-link');
+    navLinks.forEach((link) => {
+      link.addEventListener(
+        'touchstart',
+        function () {
+          this.classList.add('is-touched');
+        },
+        { passive: true }
+      );
+
+      link.addEventListener(
+        'touchend',
+        function () {
+          setTimeout(() => this.classList.remove('is-touched'), 250);
+        },
+        { passive: true }
+      );
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Voltix Community Footer",
+  "tag": "section",
+  "class": "section-voltix-footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Phần 1: Tiêu đề, Mô tả & Nhận tin"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Tiêu đề lớn",
+      "default": "JOIN THE VOLTIX COMMUNITY"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Mô tả",
+      "default": "Be The First To Discover New Launches, Exclusive Offers, And Audio Tips Delivered Straight To Your Inbox."
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Placeholder ô nhập Email",
+      "default": "Email address..."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Chữ trên nút Subscribe",
+      "default": "SUBSCRIBE"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Thông báo đăng ký thành công",
+      "default": "Thanks for subscribing!"
+    },
+    {
+      "type": "header",
+      "content": "Màu sắc & Khoảng cách"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Màu nền Section",
+      "default": "#182013"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Màu tiêu đề nổi bật",
+      "default": "#CED193"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Màu chữ nội dung",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Màu đường kẻ phân chia",
+      "default": "#2A3323"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg_color",
+      "label": "Màu nền nút Subscribe",
+      "default": "#182013"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Màu chữ nút Subscribe",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "social_link",
+      "name": "Phần 1: Mạng xã hội",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon mạng xã hội",
+          "options": [
+            { "value": "facebook", "label": "Facebook" },
+            { "value": "instagram", "label": "Instagram" },
+            { "value": "youtube", "label": "YouTube" },
+            { "value": "twitter", "label": "X (Twitter)" },
+            { "value": "pinterest", "label": "Pinterest" },
+            { "value": "tiktok", "label": "TikTok" }
+          ],
+          "default": "facebook"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Tên hiển thị",
+          "default": "Facebook"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Đường dẫn (URL)"
+        }
+      ]
+    },
+    {
+      "type": "text_block",
+      "name": "Phần 2: Khối Text",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Nội dung văn bản",
+          "default": "We're Passionate About Creating Smarter, Better-connected Lifestyles Through Innovative Electronics Designed To Bring Greater Convenience, Comfort, And Efficiency To Everyday Modern Living."
+        }
+      ]
+    },
+    {
+      "type": "nav_block",
+      "name": "Phần 2: Khối Điều hướng",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Tiêu đề khối điều hướng",
+          "default": "SHOP"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Chọn Menu",
+          "info": "Chọn từ các menu đã tạo sẵn trong Store (Online Store > Navigation). Nếu để trống sẽ hiển thị các mục mặc định."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Voltix Community Footer",
+      "blocks": [
+        {
+          "type": "social_link",
+          "settings": { "icon": "facebook", "label": "Facebook" }
+        },
+        {
+          "type": "social_link",
+          "settings": { "icon": "instagram", "label": "Instagram" }
+        },
+        {
+          "type": "social_link",
+          "settings": { "icon": "youtube", "label": "YouTube" }
+        },
+        {
+          "type": "social_link",
+          "settings": { "icon": "twitter", "label": "X (Twitter)" }
+        },
+        {
+          "type": "social_link",
+          "settings": { "icon": "pinterest", "label": "Pinterest" }
+        },
+        {
+          "type": "text_block",
+          "settings": {
+            "content": "We're Passionate About Creating Smarter, Better-connected Lifestyles Through Innovative Electronics Designed To Bring Greater Convenience, Comfort, And Efficiency To Everyday Modern Living."
+          }
+        },
+        {
+          "type": "nav_block",
+          "settings": { "heading": "SHOP" }
+        },
+        {
+          "type": "nav_block",
+          "settings": { "heading": "HELP INFO" }
+        },
+        {
+          "type": "nav_block",
+          "settings": { "heading": "POLICIES" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
