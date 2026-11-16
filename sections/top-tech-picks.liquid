@@ -1,229 +1,216 @@
-{%- assign top_tech_picks_data = '
-        1|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle9417.png?v=1789456344&width=1920|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle_661_2.png?v=1787223978&width=800|Sleek Matte Finish|Voltix AirWave Headphones|300,
-        2|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle524_7-blaxck.png?v=1786692613&width=1920|https://voltix-demo.myshopify.com/cdn/shop/files/ChatGPTImageSep15_2026_12_58_21PM.png?v=1789457212&width=800|Fast Charging|Voltix Nova Buds X Dark Edition|300,
-        3|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle9425_1.png?v=1789462493&width=1920|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle524_10.png?v=1786692432&width=800|Water Resistant IP68|Voltix Volt S1 Smart Watch|300,
-        4|https://voltix-demo.myshopify.com/cdn/shop/files/MatteBlackSmartwatchProductShot_1.png?v=1791277800&width=1920|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle9428_1.png?v=1789462493&width=800|360 Immersive Sound|Voltix Studio Speaker|100,
-        5|https://voltix-demo.myshopify.com/cdn/shop/files/Rectangle524_54.png?v=1787395498&width=1920|https://voltix-demo.myshopify.com/cdn/shop/files/ChatGPTImageOct6_2026_02_59_10PM-2.png?v=1791278965&width=800|GPS Tracking|Voltix Lunar Atlas Pro|200
-      '
-  | split: ','
--%}
-
 <div class="top-tech-picks">
   <h1>{{ section.settings.heading }}</h1>
 
   <div class="tab-list">
-    <div class="tab active" data-tab="tab-1">best sellers</div>
-    <div class="tab" data-tab="tab-2">expert pick</div>
-    <div class="tab" data-tab="tab-3">new arrivals</div>
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- assign tab_collection = block.settings.collection -%}
+        {%- if block.settings.tab_title != blank -%}
+          {%- assign tab_name = block.settings.tab_title -%}
+        {%- elsif tab_collection != blank and tab_collection.title != blank -%}
+          {%- assign tab_name = tab_collection.title -%}
+        {%- else -%}
+          {%- assign tab_name = 'Collection ' | append: forloop.index -%}
+        {%- endif -%}
+
+        <div
+          class="tab {% if forloop.first %}active{% endif %}"
+          data-tab="tab-{{ section.id }}-{{ forloop.index }}"
+          {{ block.shopify_attributes }}
+        >
+          {{ tab_name }}
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      {%- for i in (1..3) -%}
+        <div
+          class="tab {% if forloop.first %}active{% endif %}"
+          data-tab="tab-{{ section.id }}-{{ i }}"
+        >
+          Collection 0{{ i }}
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
   </div>
 
   <div class="contents">
-    <!-- TAB 1: BEST SELLERS -->
-    <div class="content active" id="tab-1">
-      <div class="swiper swiper-container-{{ section.id }}-1">
-        <div class="swiper-wrapper">
-          {%- if section.blocks.size > 0 -%}
-            {%- for block in section.blocks -%}
-              <div class="swiper-slide">
-                <div class="card" {{ block.shopify_attributes }}>
-                  <div class="image">
-                    <img
-                      class="img_back"
-                      src="{{ block.settings.img_back | image_url: width: 800 }}"
-                      alt="image"
-                      width="100%"
-                      height="100%"
-                    >
-                    <img
-                      class="img_front"
-                      src="{{ block.settings.img_front | image_url: width: 1920 }}"
-                      alt="image"
-                      width="100%"
-                      height="100%"
-                    >
-                  </div>
-                  <div class="special_feature">
-                    <div>{{ block.settings.special_feature }}</div>
-                  </div>
-                  <div class="line_1">
-                    <div>{{ block.settings.name }}</div>
-                    <span>{{ 'icon-cart.svg' | inline_asset_content }}</span>
-                  </div>
-                  <div class="line_2">Rs. {{ block.settings.price }}.00</div>
-                </div>
-              </div>
-            {%- endfor -%}
-          {%- else -%}
-            {%- for item in top_tech_picks_data -%}
-              {%- assign item_data = item | strip | split: '|' -%}
-              {%- assign img_url_1 = item_data[1] -%}
-              {%- assign img_url_2 = item_data[2] -%}
-              {%- assign special_feature = item_data[3] -%}
-              {%- assign name = item_data[4] -%}
-              {%- assign price = item_data[5] -%}
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- assign tab_index = forloop.index -%}
+        {%- assign tab_collection = block.settings.collection -%}
 
-              <div class="swiper-slide">
-                <div class="card">
-                  <div class="image">
-                    <img class="img_back" src="{{ img_url_2 }}" alt="image" width="100%" height="100%">
-                    <img class="img_front" src="{{ img_url_1 }}" alt="image" width="100%" height="100%">
-                  </div>
-                  <div class="special_feature">
-                    <div>{{ special_feature }}</div>
-                  </div>
-                  <div class="line_1">
-                    <div>{{ name }}</div>
-                    <span>{{ 'icon-cart.svg' | inline_asset_content }}</span>
-                  </div>
-                  <div class="line_2">Rs. {{ price }}.00</div>
-                </div>
-              </div>
-            {%- endfor -%}
-          {%- endif -%}
-        </div>
-        <div class="swiper-scrollbar-wrapper">
-          <div class="swiper-scrollbar swiper-scrollbar-1"></div>
-        </div>
-      </div>
-    </div>
+        <div class="content {% if forloop.first %}active{% endif %}" id="tab-{{ section.id }}-{{ tab_index }}">
+          <div class="swiper swiper-container-{{ section.id }}-{{ tab_index }}" data-swiper-index="{{ tab_index }}">
+            <div class="swiper-wrapper">
+              {%- if tab_collection != blank and tab_collection.products.size > 0 -%}
+                {%- for product in tab_collection.products -%}
+                  {%- if product.featured_image != blank -%}
+                    {%- assign front_image = product.featured_image | image_url: width: 1920 -%}
+                    {%- if product.images.size > 1 and product.images[1] != blank -%}
+                      {%- assign back_image = product.images[1] | image_url: width: 800 -%}
+                    {%- else -%}
+                      {%- assign back_image = front_image -%}
+                    {%- endif -%}
+                  {%- else -%}
+                    {%- assign placeholder_index = forloop.index0 | modulo: 6 | plus: 1 -%}
+                    {%- assign placeholder_name = 'product-' | append: placeholder_index -%}
+                    {%- assign front_image = placeholder_name
+                      | placeholder_svg_tag
+                      | base64_encode
+                      | prepend: 'data:image/svg+xml;base64,'
+                    -%}
+                    {%- assign back_image = front_image -%}
+                  {%- endif -%}
 
-    <!-- TAB 2: EXPERT PICK (Đảo ngược dữ liệu) -->
-    <div class="content" id="tab-2">
-      <div class="swiper swiper-container-{{ section.id }}-2">
-        <div class="swiper-wrapper">
-          {%- if section.blocks.size > 0 -%}
-            {%- for block in section.blocks reversed -%}
-              <div class="swiper-slide">
-                <div class="card" {{ block.shopify_attributes }}>
-                  <div class="image">
-                    <img
-                      class="img_back"
-                      src="{{ block.settings.img_back | image_url: width: 800 }}"
-                      alt="image"
-                      width="100%"
-                      height="100%"
-                    >
-                    <img
-                      class="img_front"
-                      src="{{ block.settings.img_front | image_url: width: 1920 }}"
-                      alt="image"
-                      width="100%"
-                      height="100%"
-                    >
-                  </div>
-                  <div class="special_feature">
-                    <div>{{ block.settings.special_feature }}</div>
-                  </div>
-                  <div class="line_1">
-                    <div>{{ block.settings.name }}</div>
-                    <span>{{ 'icon-cart.svg' | inline_asset_content }}</span>
-                  </div>
-                  <div class="line_2">Rs. {{ block.settings.price }}.00</div>
-                </div>
-              </div>
-            {%- endfor -%}
-          {%- else -%}
-            {%- for item in top_tech_picks_data reversed -%}
-              {%- assign item_data = item | strip | split: '|' -%}
-              {%- assign img_url_1 = item_data[1] -%}
-              {%- assign img_url_2 = item_data[2] -%}
-              {%- assign special_feature = item_data[3] -%}
-              {%- assign name = item_data[4] -%}
-              {%- assign price = item_data[5] -%}
+                  {%- assign special_feature = product.type | default: product.vendor -%}
+                  {%- if special_feature == blank -%}
+                    {%- assign special_feature = 'Featured Product' -%}
+                  {%- endif -%}
 
-              <div class="swiper-slide">
-                <div class="card">
-                  <div class="image">
-                    <img class="img_back" src="{{ img_url_2 }}" alt="image" width="100%" height="100%">
-                    <img class="img_front" src="{{ img_url_1 }}" alt="image" width="100%" height="100%">
+                  <div class="swiper-slide">
+                    <a href="{{ product.url }}" style="text-decoration: none; color: inherit; display: block;">
+                      <div class="card">
+                        <div class="image">
+                          <img
+                            class="img_back"
+                            src="{{ back_image }}"
+                            alt="{{ product.title | escape }}"
+                            width="100%"
+                            height="100%"
+                          >
+                          <img
+                            class="img_front"
+                            src="{{ front_image }}"
+                            alt="{{ product.title | escape }}"
+                            width="100%"
+                            height="100%"
+                          >
+                        </div>
+                        <div class="special_feature">
+                          <div>{{ special_feature }}</div>
+                        </div>
+                        <div class="line_1">
+                          <div>{{ product.title }}</div>
+                          <span>{{ 'icon-cart.svg' | inline_asset_content }}</span>
+                        </div>
+                        <div class="line_2">{{ product.price | money }}</div>
+                      </div>
+                    </a>
                   </div>
-                  <div class="special_feature">
-                    <div>{{ special_feature }}</div>
-                  </div>
-                  <div class="line_1">
-                    <div>{{ name }}</div>
-                    <span>{{ 'icon-cart.svg' | inline_asset_content }}</span>
-                  </div>
-                  <div class="line_2">Rs. {{ price }}.00</div>
-                </div>
-              </div>
-            {%- endfor -%}
-          {%- endif -%}
-        </div>
-        <div class="swiper-scrollbar-wrapper">
-          <div class="swiper-scrollbar swiper-scrollbar-2"></div>
-        </div>
-      </div>
-    </div>
+                {%- endfor -%}
 
-    <!-- TAB 3: NEW ARRIVALS -->
-    <div class="content" id="tab-3">
-      <div class="swiper swiper-container-{{ section.id }}-3">
-        <div class="swiper-wrapper">
-          {%- if section.blocks.size > 0 -%}
-            {%- for block in section.blocks -%}
-              <div class="swiper-slide">
-                <div class="card" {{ block.shopify_attributes }}>
-                  <div class="image">
-                    <img
-                      class="img_back"
-                      src="{{ block.settings.img_back | image_url: width: 800 }}"
-                      alt="image"
-                      width="100%"
-                      height="100%"
-                    >
-                    <img
-                      class="img_front"
-                      src="{{ block.settings.img_front | image_url: width: 1920 }}"
-                      alt="image"
-                      width="100%"
-                      height="100%"
-                    >
-                  </div>
-                  <div class="special_feature">
-                    <div>{{ block.settings.special_feature }}</div>
-                  </div>
-                  <div class="line_1">
-                    <div>{{ block.settings.name }}</div>
-                    <span>{{ 'icon-cart.svg' | inline_asset_content }}</span>
-                  </div>
-                  <div class="line_2">Rs. {{ block.settings.price }}.00</div>
-                </div>
-              </div>
-            {%- endfor -%}
-          {%- else -%}
-            {%- for item in top_tech_picks_data -%}
-              {%- assign item_data = item | strip | split: '|' -%}
-              {%- assign img_url_1 = item_data[1] -%}
-              {%- assign img_url_2 = item_data[2] -%}
-              {%- assign special_feature = item_data[3] -%}
-              {%- assign name = item_data[4] -%}
-              {%- assign price = item_data[5] -%}
+              {%- else -%}
+                {%- for item_idx in (1..5) -%}
+                  {%- assign placeholder_index = tab_index | plus: item_idx | modulo: 6 | plus: 1 -%}
+                  {%- assign placeholder_name = 'product-' | append: placeholder_index -%}
+                  {%- assign placeholder_img = placeholder_name
+                    | placeholder_svg_tag
+                    | base64_encode
+                    | prepend: 'data:image/svg+xml;base64,'
+                  -%}
+                  {%- assign sample_price = item_idx | times: 100 -%}
 
-              <div class="swiper-slide">
-                <div class="card">
-                  <div class="image">
-                    <img class="img_back" src="{{ img_url_2 }}" alt="image" width="100%" height="100%">
-                    <img class="img_front" src="{{ img_url_1 }}" alt="image" width="100%" height="100%">
+                  <div class="swiper-slide">
+                    <a href="#" style="text-decoration: none; color: inherit; display: block;">
+                      <div class="card">
+                        <div class="image">
+                          <img
+                            class="img_back"
+                            src="{{ placeholder_img }}"
+                            alt="Sample Product {{ item_idx }}"
+                            width="100%"
+                            height="100%"
+                          >
+                          <img
+                            class="img_front"
+                            src="{{ placeholder_img }}"
+                            alt="Sample Product {{ item_idx }}"
+                            width="100%"
+                            height="100%"
+                          >
+                        </div>
+                        <div class="special_feature">
+                          <div>Feature Highlight 0{{ item_idx }}</div>
+                        </div>
+                        <div class="line_1">
+                          <div>Sample Product 0{{ item_idx }}</div>
+                          <span>{{ 'icon-cart.svg' | inline_asset_content }}</span>
+                        </div>
+                        <div class="line_2">Rs. {{ sample_price }}.00</div>
+                      </div>
+                    </a>
                   </div>
-                  <div class="special_feature">
-                    <div>{{ special_feature }}</div>
-                  </div>
-                  <div class="line_1">
-                    <div>{{ name }}</div>
-                    <span>{{ 'icon-cart.svg' | inline_asset_content }}</span>
-                  </div>
-                  <div class="line_2">Rs. {{ price }}.00</div>
+                {%- endfor -%}
+              {%- endif -%}
+            </div>
+            <div class="swiper-scrollbar-wrapper">
+              <div class="swiper-scrollbar swiper-scrollbar-{{ section.id }}-{{ tab_index }}"></div>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+
+    {%- else -%}
+      {%- for tab_index in (1..3) -%}
+        <div class="content {% if forloop.first %}active{% endif %}" id="tab-{{ section.id }}-{{ tab_index }}">
+          <div class="swiper swiper-container-{{ section.id }}-{{ tab_index }}" data-swiper-index="{{ tab_index }}">
+            <div class="swiper-wrapper">
+              {%- for item_idx in (1..5) -%}
+                {%- assign placeholder_index_front = tab_index | plus: item_idx | modulo: 6 | plus: 1 -%}
+                {%- assign placeholder_index_back = placeholder_index_front | modulo: 6 | plus: 1 -%}
+                {%- assign placeholder_front = 'product-'
+                  | append: placeholder_index_front
+                  | placeholder_svg_tag
+                  | base64_encode
+                  | prepend: 'data:image/svg+xml;base64,'
+                -%}
+                {%- assign placeholder_back = 'product-'
+                  | append: placeholder_index_back
+                  | placeholder_svg_tag
+                  | base64_encode
+                  | prepend: 'data:image/svg+xml;base64,'
+                -%}
+                {%- assign sample_price = item_idx | times: 100 -%}
+
+                <div class="swiper-slide">
+                  <a href="#" style="text-decoration: none; color: inherit; display: block;">
+                    <div class="card">
+                      <div class="image">
+                        <img
+                          class="img_back"
+                          src="{{ placeholder_back }}"
+                          alt="Sample Product {{ item_idx }}"
+                          width="100%"
+                          height="100%"
+                        >
+                        <img
+                          class="img_front"
+                          src="{{ placeholder_front }}"
+                          alt="Sample Product {{ item_idx }}"
+                          width="100%"
+                          height="100%"
+                        >
+                      </div>
+                      <div class="special_feature">
+                        <div>Feature Highlight 0{{ item_idx }}</div>
+                      </div>
+                      <div class="line_1">
+                        <div>Sample Product {{ tab_index }}.{{ item_idx }}</div>
+                        <span>{{ 'icon-cart.svg' | inline_asset_content }}</span>
+                      </div>
+                      <div class="line_2">Rs. {{ sample_price }}.00</div>
+                    </div>
+                  </a>
                 </div>
-              </div>
-            {%- endfor -%}
-          {%- endif -%}
+              {%- endfor -%}
+            </div>
+            <div class="swiper-scrollbar-wrapper">
+              <div class="swiper-scrollbar swiper-scrollbar-{{ section.id }}-{{ tab_index }}"></div>
+            </div>
+          </div>
         </div>
-        <div class="swiper-scrollbar-wrapper">
-          <div class="swiper-scrollbar swiper-scrollbar-3"></div>
-        </div>
-      </div>
-    </div>
+      {%- endfor -%}
+    {%- endif -%}
   </div>
 </div>
 
@@ -261,11 +248,17 @@
   }
 
   .top-tech-picks .contents .content {
-    display: none;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   .top-tech-picks .contents .content.active {
-    display: block;
+    height: auto;
+    overflow: visible;
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .top-tech-picks .contents .content .swiper .card {
@@ -283,7 +276,6 @@
     position: relative;
   }
 
-  /* Thêm width, height và object-fit: cover để ảnh lấp đầy khung 1/1 */
   .top-tech-picks .contents .content .swiper .card .image img {
     width: 100%;
     height: 100%;
@@ -428,34 +420,40 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const tabList = document.querySelectorAll('.top-tech-picks .tab-list .tab');
-    const contentList = document.querySelectorAll('.top-tech-picks .contents .content');
+    const sectionEl = document.getElementById('shopify-section-{{ section.id }}');
+    if (!sectionEl) return;
 
-    tabList.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        const targetId = tab.getAttribute('data-tab');
-
-        tabList.forEach((t) => t.classList.remove('active'));
-        contentList.forEach((c) => c.classList.remove('active'));
-
-        tab.classList.add('active');
-        document.getElementById(targetId).classList.add('active');
-
-        // Trigger resize để Swiper tính toán lại kích thước hiển thị khi đổi tab
-        window.dispatchEvent(new Event('resize'));
-      });
-    });
-  });
-</script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
     let swipers = {};
 
+    function initTabs() {
+      const tabList = sectionEl.querySelectorAll('.top-tech-picks .tab-list .tab');
+      const contentList = sectionEl.querySelectorAll('.top-tech-picks .contents .content');
+
+      tabList.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const targetId = tab.getAttribute('data-tab');
+
+          tabList.forEach((t) => t.classList.remove('active'));
+          contentList.forEach((c) => c.classList.remove('active'));
+
+          tab.classList.add('active');
+          const targetContent = document.getElementById(targetId);
+          if (targetContent) {
+            targetContent.classList.add('active');
+          }
+
+          window.dispatchEvent(new Event('resize'));
+        });
+      });
+    }
+
     function initSwipers() {
-      ['1', '2', '3'].forEach(function (index) {
+      const swiperElements = sectionEl.querySelectorAll('.swiper');
+
+      swiperElements.forEach(function (swiperEl) {
+        const index = swiperEl.getAttribute('data-swiper-index');
         const selector = '.swiper-container-{{ section.id }}-' + index;
-        const scrollbarSelector = '.swiper-scrollbar-' + index;
+        const scrollbarSelector = '.swiper-scrollbar-{{ section.id }}-' + index;
 
         if (swipers[index] && typeof swipers[index].destroy === 'function') {
           swipers[index].destroy(true, true);
@@ -483,10 +481,12 @@
       });
     }
 
+    initTabs();
     initSwipers();
 
     document.addEventListener('shopify:section:load', function (event) {
       if (event.detail.sectionId === '{{ section.id }}') {
+        initTabs();
         initSwipers();
       }
     });
@@ -600,36 +600,19 @@
   ],
   "blocks": [
     {
-      "type": "product_card",
-      "name": "Thẻ sản phẩm",
+      "type": "collection_tab",
+      "name": "Tab bộ sưu tập",
       "settings": [
         {
-          "type": "image_picker",
-          "id": "img_front",
-          "label": "Ảnh mặt trước (Front Image)"
-        },
-        {
-          "type": "image_picker",
-          "id": "img_back",
-          "label": "Ảnh mặt sau khi hover (Back Image)"
+          "type": "collection",
+          "id": "collection",
+          "label": "Chọn bộ sưu tập (Collection)"
         },
         {
           "type": "text",
-          "id": "special_feature",
-          "label": "Đặc điểm nổi bật (Special Feature)",
-          "default": "Sleek Matte Finish"
-        },
-        {
-          "type": "text",
-          "id": "name",
-          "label": "Tên sản phẩm",
-          "default": "Voltix AirWave Headphones"
-        },
-        {
-          "type": "number",
-          "id": "price",
-          "label": "Giá tiền",
-          "default": 300
+          "id": "tab_title",
+          "label": "Tên Tab tùy chỉnh",
+          "info": "Để trống nếu muốn tự động lấy tên của Collection"
         }
       ]
     }
