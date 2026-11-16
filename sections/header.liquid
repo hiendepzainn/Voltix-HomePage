@@ -1,10 +1,10 @@
 <div class="header">
   <div class="area area1">
-    <span>shop</span>
-    <span>collections</span>
-    <span>about</span>
-    <span>blog</span>
-    <span>contact</span>
+    <span>{{ 'header.shop' | t }}</span>
+    <span>{{ 'header.collections' | t }}</span>
+    <span>{{ 'header.about' | t }}</span>
+    <span>{{ 'header.blog' | t }}</span>
+    <span>{{ 'header.contact' | t }}</span>
     <div>{{ 'icon-menu.svg' | inline_asset_content }}</div>
   </div>
 
@@ -15,17 +15,17 @@
   <div class="area area3">
     <div>
       <span class="icon-header">{{ 'icon-search.svg' | inline_asset_content }}</span>
-      <span class="text">search</span>
+      <span class="text">{{ 'header.search' | t }}</span>
     </div>
 
     <div>
       <span class="icon-header">{{ 'icon-account.svg' | inline_asset_content }}</span>
-      <span class="text">sign in / register</span>
+      <span class="text">{{ 'header.login' | t }}</span>
     </div>
 
     <div>
       <span class="icon-header">{{ 'icon-cart.svg' | inline_asset_content }}</span>
-      <span class="text">cart</span>
+      <span class="text">{{ 'header.cart' | t }}</span>
       {% if cart.item_count > 0 %}
         <span>{{ cart.item_count }}</span>
       {% endif %}

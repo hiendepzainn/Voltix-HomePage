@@ -243,64 +243,28 @@
   <div class="vf-bottom">
     <div class="vf-bottom-container">
       <div class="vf-col vf-col--switchers">
-        <div class="vf-dropdown" data-vf-dropdown>
-          {%- assign initial_currency = section.settings.default_currency_label | default: 'USD' -%}
-          {%- if currency_menu != blank and currency_menu.links.size > 0 -%}
-            {%- assign initial_currency = currency_menu.links.first.title -%}
-          {%- endif -%}
-
-          <button type="button" class="vf-dropdown-toggle" aria-expanded="false" data-vf-toggle>
-            <span data-vf-label>{{ initial_currency }}</span>
-            <svg class="vf-dropdown-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-
-          <ul class="vf-dropdown-menu">
-            {%- if currency_menu != blank and currency_menu.links.size > 0 -%}
-              {%- for link in currency_menu.links -%}
-                <li class="vf-dropdown-item">
-                  <a href="{{ link.url }}" data-vf-option="{{ link.title | escape }}">{{ link.title }}</a>
-                </li>
-              {%- endfor -%}
-            {%- else -%}
-              {%- for curr in default_currencies -%}
-                <li class="vf-dropdown-item">
-                  <button type="button" data-vf-option="{{ curr }}">{{ curr }}</button>
-                </li>
-              {%- endfor -%}
-            {%- endif -%}
-          </ul>
-        </div>
+        <div class="vf-dropdown" data-vf-dropdown>dropdown currency</div>
 
         <div class="vf-dropdown" data-vf-dropdown>
-          {%- assign initial_language = section.settings.default_language_label | default: 'français' -%}
-          {%- if language_menu != blank and language_menu.links.size > 0 -%}
-            {%- assign initial_language = language_menu.links.first.title -%}
-          {%- endif -%}
-
-          <button type="button" class="vf-dropdown-toggle" aria-expanded="false" data-vf-toggle>
-            <span data-vf-label>{{ initial_language }}</span>
-            <svg class="vf-dropdown-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-
-          <ul class="vf-dropdown-menu">
-            {%- if language_menu != blank and language_menu.links.size > 0 -%}
-              {%- for link in language_menu.links -%}
-                <li class="vf-dropdown-item">
-                  <a href="{{ link.url }}" data-vf-option="{{ link.title | escape }}">{{ link.title }}</a>
-                </li>
-              {%- endfor -%}
-            {%- else -%}
-              {%- for lang in default_languages -%}
-                <li class="vf-dropdown-item">
-                  <button type="button" data-vf-option="{{ lang }}">{{ lang }}</button>
-                </li>
-              {%- endfor -%}
-            {%- endif -%}
-          </ul>
+          <label for="locale-select" style="font-weight: 600; margin-right: 8px;">Language:</label>
+          <select id="locale-select" style="padding: 6px 12px; border-radius: 4px; border: 1px solid #ccc;">
+            <option
+              value="en"
+              {% if request.locale.iso_code == 'en' %}
+                selected
+              {% endif %}
+            >
+              English
+            </option>
+            <option
+              value="vi"
+              {% if request.locale.iso_code == 'vi' %}
+                selected
+              {% endif %}
+            >
+              Tiếng Việt
+            </option>
+          </select>
         </div>
       </div>
 
@@ -340,57 +304,25 @@
 </footer>
 
 <script>
-  (function () {
-    const sectionEl = document.getElementById('voltix-footer-{{ section.id }}');
-    if (!sectionEl) return;
+  document.getElementById('locale-select').addEventListener('change', function () {
+    const selectedLocale = this.value;
+    const currentPath = window.location.pathname;
+    const searchParams = window.location.search;
 
-    const dropdowns = sectionEl.querySelectorAll('[data-vf-dropdown]');
+    let newPath = '';
 
-    dropdowns.forEach((dropdown) => {
-      const toggleBtn = dropdown.querySelector('[data-vf-toggle]');
-      const labelEl = dropdown.querySelector('[data-vf-label]');
-      const options = dropdown.querySelectorAll('[data-vf-option]');
-
-      toggleBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = dropdown.classList.contains('is-open');
-
-        dropdowns.forEach((d) => {
-          d.classList.remove('is-open');
-          d.querySelector('[data-vf-toggle]').setAttribute('aria-expanded', 'false');
-        });
-
-        if (!isOpen) {
-          dropdown.classList.add('is-open');
-          toggleBtn.setAttribute('aria-expanded', 'true');
-        }
-      });
-
-      options.forEach((opt) => {
-        opt.addEventListener('click', (e) => {
-          const selectedValue = opt.getAttribute('data-vf-option');
-          if (labelEl && selectedValue) {
-            labelEl.textContent = selectedValue;
-          }
-          dropdown.classList.remove('is-open');
-          toggleBtn.setAttribute('aria-expanded', 'false');
-
-          if (opt.tagName === 'A' && opt.getAttribute('href') === '#') {
-            e.preventDefault();
-          }
-        });
-      });
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!sectionEl.contains(e.target)) {
-        dropdowns.forEach((d) => {
-          d.classList.remove('is-open');
-          d.querySelector('[data-vf-toggle]').setAttribute('aria-expanded', 'false');
-        });
+    if (selectedLocale === 'vi') {
+      if (!currentPath.startsWith('/vi')) {
+        newPath = currentPath === '/' ? '/vi/' : '/vi' + currentPath;
+      } else {
+        newPath = currentPath;
       }
-    });
-  })();
+    } else {
+      newPath = currentPath.replace(/^\/vi/, '') || '/';
+    }
+
+    window.location.href = newPath + searchParams;
+  });
 </script>
 
 {% schema %}
@@ -444,12 +376,6 @@
       "id": "default_currency_label",
       "label": "Đơn vị tiền mặc định hiển thị",
       "default": "USD"
-    },
-    {
-      "type": "link_list",
-      "id": "language_menu",
-      "label": "Menu Ngôn ngữ",
-      "info": "Chọn menu trong Navigation. Nếu để trống sẽ hiển thị mặc định (français, English, Español, Tiếng Việt)."
     },
     {
       "type": "text",

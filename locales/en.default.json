@@ -48,5 +48,15 @@
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
     "results_for_html": "{{ count }} results found for {{ terms }}"
+  },
+  "header": {
+    "shop": "shop",
+    "collections": "collections",
+    "about": "about",
+    "blog": "blog",
+    "contact": "contact",
+    "search": "search",
+    "login": "sign in / register",
+    "cart": "cart"
   }
 }
