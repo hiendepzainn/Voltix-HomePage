@@ -243,7 +243,24 @@
   <div class="vf-bottom">
     <div class="vf-bottom-container">
       <div class="vf-col vf-col--switchers">
-        <div class="vf-dropdown" data-vf-dropdown>dropdown currency</div>
+        {%- form 'localization', class: 'simple-currency-form' -%}
+          <div class="currency-picker">
+            <label for="CurrencySelector" class="currency-label">Tiền tệ:</label>
+
+            <select name="country_code" id="CurrencySelector" class="currency-select" onchange="this.form.submit()">
+              {%- for country in localization.available_countries -%}
+                <option
+                  value="{{ country.iso_code }}"
+                  {%- if country.iso_code == localization.country.iso_code %}
+                    selected
+                  {%- endif -%}
+                >
+                  {{ country.currency.iso_code }} ({{ country.currency.symbol }}) - {{ country.name }}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endform -%}
 
         <div class="vf-dropdown" data-vf-dropdown>
           <label for="locale-select" style="font-weight: 600; margin-right: 8px;">Language:</label>
